@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{name}} — {{tagline}}</title>
+
+<!-- Google Fonts:EB Garamond + Inter + JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0F0F0F;
+    color: #F5F1E8;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 64px 32px; }
+
+  /* 顶部 */
+  .masthead { display: grid; grid-template-columns: 1fr auto; align-items: end; padding-bottom: 32px; border-bottom: 1px solid #2A2A2A; margin-bottom: 80px; }
+  .name { font-family: 'EB Garamond', serif; font-size: 96px; font-weight: 500; line-height: 0.95; letter-spacing: -0.02em; }
+  .meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: #888; text-align: right; }
+  .tagline { font-family: 'EB Garamond', serif; font-size: 24px; font-weight: 400; font-style: italic; color: #C4B89F; margin-top: 16px; }
+
+  /* 章节 */
+  .chapter { margin-bottom: 96px; }
+  .chapter-num { font-family: 'EB Garamond', serif; font-size: 14px; letter-spacing: 0.2em; color: #B91C1C; text-transform: uppercase; margin-bottom: 24px; }
+  .chapter-title { font-family: 'EB Garamond', serif; font-size: 64px; font-weight: 500; line-height: 1.05; margin-bottom: 32px; max-width: 800px; }
+
+  /* 作品 */
+  .work { display: grid; grid-template-columns: 8fr 4fr; gap: 32px; margin-bottom: 80px; }
+  .work-img { background: #1A1A1A; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; color: #555; font-family: 'JetBrains Mono', monospace; font-size: 12px; border: 1px solid #2A2A2A; }
+  .work-img img { width: 100%; height: 100%; object-fit: cover; }
+  .work-info { padding-top: 8px; }
+  .work-info h3 { font-family: 'EB Garamond', serif; font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+  .work-info .role { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888; margin-bottom: 16px; }
+  .work-info p { color: #C4B89F; font-size: 15px; line-height: 1.7; }
+
+  /* 联系 */
+  .contact { border-top: 1px solid #2A2A2A; padding-top: 32px; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+  .contact a { color: #F5F1E8; text-decoration: none; border-bottom: 1px solid #B91C1C; transition: border-color 0.2s; }
+  .contact a:hover { border-color: #F5F1E8; }
+
+  /* accent(主 Agent 替换) */
+  :root { --accent: #B91C1C; }
+  .accent { color: var(--accent); }
+
+  /* 动效 1:区块淡入 */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+  }
+  .no-js .reveal { opacity: 1; transform: none; }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .container { padding: 48px 24px; }
+    .masthead { grid-template-columns: 1fr; }
+    .meta { text-align: left; margin-top: 16px; }
+    .name { font-size: 56px; }
+    .chapter-title { font-size: 40px; }
+    .work { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; color: black; }
+    .container { max-width: 100%; }
+    .work-info p { color: #333; }
+  }
+</style>
+</head>
+<body class="no-js">
+<div class="container">
+
+  <header class="masthead reveal">
+    <div>
+      <h1 class="name">{{name}}</h1>
+      <p class="tagline">{{tagline}}</p>
+    </div>
+    <div class="meta">
+      <p>PORTFOLIO</p>
+      <p>{{date}}</p>
+    </div>
+  </header>
+
+  <!-- 关于 -->
+  <section class="chapter reveal">
+    <p class="chapter-num">CHAPTER Ⅰ · About</p>
+    <p class="chapter-title">{{about_quote}}</p>
+    <p style="max-width: 600px; color: #C4B89F;">{{about_full}}</p>
+  </section>
+
+  <!-- 作品 1 -->
+  <section class="chapter reveal">
+    <p class="chapter-num">CHAPTER Ⅱ · Selected Works</p>
+    <h2 class="chapter-title">{{work_1_title}}</h2>
+
+    <div class="work">
+      <div class="work-img">
+        <!-- 替换为用户作品图,无图时显示 SVG 占位(非 emoji) -->
+        <img src="{{work_1_image}}" alt="{{work_1_title}}" onerror="this.style.display='none'; this.parentNode.innerHTML='<svg width=&quot;48&quot; height=&quot;48&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#555&quot; stroke-width=&quot;1.5&quot;><rect x=&quot;3&quot; y=&quot;5&quot; width=&quot;18&quot; height=&quot;14&quot; rx=&quot;1&quot;/><circle cx=&quot;9&quot; cy=&quot;10&quot; r=&quot;1.5&quot;/><path d=&quot;M3 17 L9 11 L13 15 L17 11 L21 17&quot;/></svg><p style=&quot;font-family: JetBrains Mono, monospace; font-size: 12px; color: #555; margin-top: 8px;&quot;>作品图待补</p>';">
+      </div>
+      <div class="work-info">
+        <h3>{{work_1_subtitle}}</h3>
+        <p class="role">{{work_1_role}} · {{work_1_year}}</p>
+        <p>{{work_1_desc}}</p>
+      </div>
+    </div>
+
+    <div class="work">
+      <div class="work-img">
+        <img src="{{work_2_image}}" alt="{{work_2_title}}" onerror="this.style.display='none'; this.parentNode.innerHTML='<svg width=&quot;48&quot; height=&quot;48&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;#555&quot; stroke-width=&quot;1.5&quot;><rect x=&quot;3&quot; y=&quot;5&quot; width=&quot;18&quot; height=&quot;14&quot; rx=&quot;1&quot;/><circle cx=&quot;9&quot; cy=&quot;10&quot; r=&quot;1.5&quot;/><path d=&quot;M3 17 L9 11 L13 15 L17 11 L21 17&quot;/></svg><p style=&quot;font-family: JetBrains Mono, monospace; font-size: 12px; color: #555; margin-top: 8px;&quot;>作品图待补</p>';">
+      </div>
+      <div class="work-info">
+        <h3>{{work_2_subtitle}}</h3>
+        <p class="role">{{work_2_role}} · {{work_2_year}}</p>
+        <p>{{work_2_desc}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <footer class="contact reveal">
+    <p>Get in touch · <a href="mailto:{{email}}">{{email}}</a> · <a href="{{portfolio_link}}">{{portfolio_link}}</a></p>
+  </footer>
+
+</div>
+
+<script>
+  document.body.classList.remove('no-js');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  }
+</script>
+</body>
+</html>

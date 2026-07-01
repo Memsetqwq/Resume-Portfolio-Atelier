@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{name}} ~/</title>
+
+<!-- Google Fonts:JetBrains Mono + Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    background: #0A0A0F;
+    color: #E0E0E0;
+    line-height: 1.7;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .terminal { max-width: 880px; margin: 0 auto; padding: 48px 32px; }
+
+  /* 顶部命令行 */
+  .prompt-line { color: #00FF88; margin-bottom: 8px; }
+  .prompt-user { color: #A855F7; }
+  .prompt-host { color: #FFD600; }
+  .prompt-path { color: #00FF88; }
+  .prompt-arrow { color: #888; }
+
+  /* 主标题 */
+  h1 { font-size: 32px; font-weight: 700; color: #00FF88; margin: 24px 0 8px; letter-spacing: -0.01em; }
+  .subtitle { color: #888; font-size: 13px; margin-bottom: 32px; }
+
+  /* 区块 */
+  .section { margin-bottom: 48px; border-left: 2px solid #1A1A2E; padding-left: 20px; }
+  .section-title { color: #00FF88; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .section-title::before { content: '> '; color: #888; }
+
+  /* 经历条目 */
+  .item { margin-bottom: 24px; }
+  .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; gap: 8px; }
+  .item-title { color: #E0E0E0; font-weight: 500; }
+  .item-period { color: #888; font-size: 12px; }
+  .item-meta { color: #A855F7; font-size: 12px; margin-bottom: 8px; }
+  .item-desc { color: #B0B0B0; font-size: 13px; padding-left: 16px; border-left: 1px dashed #2A2A3E; }
+  .item-desc::before { content: '$ '; color: #FFD600; }
+  .highlight { color: #00FF88; }
+  .warn { color: #FFD600; }
+
+  /* 技能条 */
+  .skill { display: flex; align-items: center; margin-bottom: 4px; font-size: 13px; }
+  .skill-label { width: 140px; color: #888; }
+  .skill-bar { flex: 1; height: 8px; background: #1A1A2E; position: relative; }
+  .skill-bar::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; background: #00FF88; width: var(--level, 80%); }
+
+  /* 联系 */
+  .contact a { color: #00FF88; text-decoration: none; border-bottom: 1px dashed #00FF88; transition: all 0.15s; }
+  .contact a:hover { color: #A855F7; border-bottom-color: #A855F7; }
+
+  /* 闪烁光标 */
+  .cursor { display: inline-block; width: 8px; height: 16px; background: #00FF88; animation: blink 1s step-end infinite; vertical-align: middle; margin-left: 4px; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+  /* 动效:滚动渐显 */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.2s, transform 0.2s; }
+    .reveal.visible { opacity: 1; transform: none; }
+  }
+  .no-js .reveal { opacity: 1; transform: none; }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .terminal { padding: 32px 16px; }
+    h1 { font-size: 24px; }
+    .item-header { flex-direction: column; align-items: flex-start; }
+    .skill-label { width: 100px; }
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; color: black; font-size: 11pt; }
+    .cursor { display: none; }
+    a { color: black; border-bottom-color: black; }
+  }
+</style>
+</head>
+<body class="no-js">
+<div class="terminal">
+
+  <div class="prompt-line">
+    <span class="prompt-user">{{name}}</span><span class="prompt-arrow">@</span><span class="prompt-host">portfolio</span>
+    <span class="prompt-arrow">:</span><span class="prompt-path">~</span><span class="prompt-arrow">$ </span>cat about.md
+  </div>
+
+  <h1>{{name}}<span class="cursor"></span></h1>
+  <p class="subtitle">{{title}} // {{tagline}}</p>
+
+  <div class="prompt-line" style="margin-top: 32px;">
+    <span class="prompt-user">{{name}}</span><span class="prompt-arrow">@</span><span class="prompt-host">portfolio</span>
+    <span class="prompt-arrow">:</span><span class="prompt-path">~</span><span class="prompt-arrow">$ </span>ls -la
+  </div>
+
+  <!-- 联系 -->
+  <section class="section contact reveal">
+    <div class="section-title">contact.txt</div>
+    <p>email: <a href="mailto:{{email}}">{{email}}</a></p>
+    <p>github: <a href="{{github}}">{{github}}</a></p>
+    <p>phone: {{phone}}</p>
+  </section>
+
+  <!-- 经历 -->
+  <section class="section reveal">
+    <div class="section-title">experience.log</div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-title">{{role_1}}</span>
+        <span class="item-period">{{period_1}}</span>
+      </div>
+      <p class="item-meta">{{company_1}}</p>
+      <p class="item-desc">{{achievement_1}}</p>
+    </div>
+
+    <div class="item">
+      <div class="item-header">
+        <span class="item-title">{{role_2}}</span>
+        <span class="item-period">{{period_2}}</span>
+      </div>
+      <p class="item-meta">{{company_2}}</p>
+      <p class="item-desc">{{achievement_2}}</p>
+    </div>
+  </section>
+
+  <!-- 项目 -->
+  <section class="section reveal">
+    <div class="section-title">projects/</div>
+    <div class="item">
+      <div class="item-header">
+        <span class="item-title">{{project_1_name}}/</span>
+        <span class="item-period warn">{{project_1_status}}</span>
+      </div>
+      <p class="item-meta">{{project_1_stack}}</p>
+      <p class="item-desc">{{project_1_desc}}</p>
+    </div>
+  </section>
+
+  <!-- 技能 -->
+  <section class="section reveal">
+    <div class="section-title">skills.json</div>
+    <div class="skill"><span class="skill-label">{{skill_1}}</span><span class="skill-bar" style="--level: 90%"></span></div>
+    <div class="skill"><span class="skill-label">{{skill_2}}</span><span class="skill-bar" style="--level: 85%"></span></div>
+    <div class="skill"><span class="skill-label">{{skill_3}}</span><span class="skill-bar" style="--level: 75%"></span></div>
+  </section>
+
+</div>
+
+<script>
+  document.body.classList.remove('no-js');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  }
+</script>
+</body>
+</html>

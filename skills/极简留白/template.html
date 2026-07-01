@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{name}} - {{title}}</title>
+
+<!-- Google Fonts:Inter + JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* === 重置 + 字体 fallback === */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #0A0A0A;
+    background: #FAFAFA;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* 字体加载失败 fallback 到系统字体 */
+  @font-face { font-family: 'Inter'; src: local('Helvetica Neue'); }
+
+  /* === 排版 === */
+  .container { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
+  h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  h2 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: #6B7280; margin: 80px 0 24px; }
+  h3 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  p { font-size: 16px; color: #374151; margin-bottom: 8px; }
+  a { color: #0A0A0A; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+  a:hover { border-bottom-color: #2563EB; }
+  code, .mono { font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace; font-size: 14px; }
+
+  /* 顶部个人信息 */
+  .header { margin-bottom: 80px; }
+  .header .title { font-size: 20px; color: #6B7280; font-weight: 300; margin-top: 8px; }
+  .header .contact { margin-top: 16px; font-size: 14px; color: #6B7280; }
+  .header .contact span { margin-right: 16px; }
+
+  /* 区块 */
+  .section { margin-bottom: 64px; }
+  .item { margin-bottom: 32px; }
+  .item .meta { font-size: 13px; color: #6B7280; margin-bottom: 8px; }
+  .item ul { padding-left: 20px; margin-top: 8px; }
+  .item li { margin-bottom: 4px; color: #374151; }
+
+  /* accent 颜色(主 Agent 替换) */
+  :root { --accent: #2563EB; }
+  .accent { color: var(--accent); }
+  hr { border: none; border-top: 1px solid #E5E7EB; margin: 40px 0; }
+
+  /* === 动效 1:滚动渐显(200ms) === */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.4s; }
+    .reveal.visible { opacity: 1; transform: none; }
+  }
+  /* 关 JS 也可读(默认显示) */
+  .no-js .reveal { opacity: 1; transform: none; }
+
+  /* === 响应式 === */
+  @media (max-width: 640px) {
+    .container { padding: 48px 24px; }
+    h1 { font-size: 40px; }
+    h2 { margin-top: 56px; }
+  }
+
+  /* === Print CSS:打印/PDF === */
+  @media print {
+    body { background: white; color: black; font-size: 11pt; }
+    .container { max-width: 100%; padding: 0; }
+    h1 { font-size: 24pt; }
+    a { color: black; border-bottom: none; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+  }
+</style>
+</head>
+<body class="no-js">
+<div class="container">
+
+  <!-- 顶部:姓名 + 目标岗位 + 联系方式 -->
+  <header class="header">
+    <h1>{{name}}</h1>
+    <p class="title">{{title}} <span class="accent">·</span> {{tagline}}</p>
+    <p class="contact">
+      <span>{{email}}</span>
+      <span>{{phone}}</span>
+      <span>{{github}}</span>
+    </p>
+  </header>
+
+  <!-- 关于 -->
+  <section class="section reveal">
+    <h2>关于</h2>
+    <p>{{about_summary}}</p>
+  </section>
+
+  <!-- 经历 -->
+  <section class="section reveal">
+    <h2>经历</h2>
+
+    <div class="item">
+      <h3>{{role_1}}</h3>
+      <p class="meta">{{company_1}} · {{period_1}}</p>
+      <ul>
+        <li>{{achievement_1_1}}</li>
+        <li>{{achievement_1_2}}</li>
+        <li>{{achievement_1_3}}</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <h3>{{role_2}}</h3>
+      <p class="meta">{{company_2}} · {{period_2}}</p>
+      <ul>
+        <li>{{achievement_2_1}}</li>
+        <li>{{achievement_2_2}}</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 项目 -->
+  <section class="section reveal">
+    <h2>项目</h2>
+    <div class="item">
+      <h3>{{project_1_name}}</h3>
+      <p class="meta">{{project_1_tech}}</p>
+      <p>{{project_1_desc}}</p>
+    </div>
+  </section>
+
+  <!-- 技能 -->
+  <section class="section reveal">
+    <h2>技能</h2>
+    <p class="mono">{{skill_list}}</p>
+  </section>
+
+  <!-- 教育 -->
+  <section class="section reveal">
+    <h2>教育</h2>
+    <div class="item">
+      <h3>{{school}}</h3>
+      <p class="meta">{{degree}} · {{period}}</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // 滚动渐显(IntersectionObserver)
+  document.body.classList.remove('no-js');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+</script>
+</body>
+</html>

@@ -273,6 +273,79 @@
   }
   .no-js .reveal { opacity: 1; transform: none; }
 
+  /* === 动效全覆盖:子元素 stagger reveal === */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal[data-reveal-group] > * {
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+    .reveal[data-reveal-group].visible > * { opacity: 1; transform: none; }
+    .reveal[data-reveal-group].visible > *:nth-child(1) { transition-delay: 0ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(2) { transition-delay: 50ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(3) { transition-delay: 100ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(4) { transition-delay: 150ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(5) { transition-delay: 200ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(6) { transition-delay: 250ms; }
+  }
+  .no-js .reveal[data-reveal-group] > * { opacity: 1; transform: none; }
+
+  /* === Section title 下划线绘制 === */
+  @media (prefers-reduced-motion: no-preference) {
+    .section-title::after {
+      width: 0;
+      transition: width var(--motion-slow) var(--ease-out);
+    }
+    .section.reveal.visible .section-title::after { width: 100%; }
+  }
+  .no-js .section-title::after { width: 100%; }
+
+  /* === 经历 / 项目 item hover accent 左线绘制 === */
+  .item {
+    position: relative;
+  }
+  .item::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: 0;
+    width: 0;
+    height: 100%;
+    border-left: 2px solid var(--neon-green);
+    transition: width var(--motion-base) var(--ease-out), opacity var(--motion-fast) ease;
+    opacity: 0;
+  }
+  .item:hover::before { width: 8px; opacity: 0.6; }
+
+  /* === Status bar 打字机式扫入 === */
+  @media (prefers-reduced-motion: no-preference) {
+    .status-bar {
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+    .status-bar.visible { opacity: 1; transform: none; }
+  }
+  .no-js .status-bar { opacity: 1; transform: none; }
+
+  /* === Hero ASCII 慢速淡入 === */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-ascii {
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
+    }
+    .hero-ascii.shown { opacity: 0.12; transform: none; }
+  }
+  .no-js .hero-ascii { opacity: 0.12; }
+
+  /* === Footer accent mark hover pulse === */
+  .terminal-exit .exit-code {
+    display: inline-block;
+    transition: color var(--motion-fast) ease, text-shadow var(--motion-fast) ease;
+  }
+  .terminal-exit:hover .exit-code { color: var(--neon-purple); text-shadow: 0 0 6px var(--neon-purple); }
+
   /* === 动效:Hero stagger(adaptive 2)== */
   @media (prefers-reduced-motion: no-preference) {
     [data-stagger] > * {
@@ -303,8 +376,10 @@
     body { background: white; color: black; background-image: none; font-size: 11pt; }
     .cursor, .hero-ascii { display: none; }
     .status-bar, .terminal-exit, .status-bar .status-dot::before { display: none; }
-    .reveal, [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+    .reveal, [data-stagger] > *, .reveal[data-reveal-group] > * { opacity: 1 !important; transform: none !important; }
     .section { border-left-color: #ccc; }
+    .section-title::after { width: 100% !important; }
+    .item::before { display: none !important; }
     a { color: black; border-bottom-color: black; }
     .skill-bar { border-color: #ccc; background: #f0f0f0; }
     .skill-bar::after { background: #333 !important; box-shadow: none !important; }
@@ -350,8 +425,8 @@
     <p>phone: {{phone}}</p>
   </section>
 
-  <!-- 经历 -->
-  <section class="section reveal">
+  <!-- 经历(每个 item stagger 进入)== -->
+  <section class="section reveal" data-reveal-group>
     <div class="section-title">experience.log</div>
 
     <div class="item">
@@ -374,7 +449,7 @@
   </section>
 
   <!-- 项目 -->
-  <section class="section reveal">
+  <section class="section reveal" data-reveal-group>
     <div class="section-title">projects/</div>
     <div class="item">
       <div class="item-header">
@@ -386,16 +461,16 @@
     </div>
   </section>
 
-  <!-- 技能(animated bar + percentage 数据)== -->
-  <section class="section reveal">
+  <!-- 技能(每个 skill row stagger 进入 + bar 渐变)== -->
+  <section class="section reveal" data-reveal-group>
     <div class="section-title">skills.json</div>
     <div class="skill"><span class="skill-label">{{skill_1}}</span><div class="skill-bar" data-level="{{skill_1_level}}" style="--level: 90%"></div><span class="skill-pct" data-countup="{{skill_1_level}}">0</span></div>
     <div class="skill"><span class="skill-label">{{skill_2}}</span><div class="skill-bar" data-level="{{skill_2_level}}" style="--level: 85%"></div><span class="skill-pct" data-countup="{{skill_2_level}}">0</span></div>
     <div class="skill"><span class="skill-label">{{skill_3}}</span><div class="skill-bar" data-level="{{skill_3_level}}" style="--level: 75%"></div><span class="skill-pct" data-countup="{{skill_3_level}}">0</span></div>
   </section>
 
-  <!-- Terminal exit footer -->
-  <div class="terminal-exit">
+  <!-- Terminal exit footer(reveal 进入)== -->
+  <div class="terminal-exit reveal" data-reveal-group>
     <span><span class="prompt-user">{{name}}</span><span class="prompt-arrow">@</span><span class="prompt-host">portfolio</span><span class="prompt-arrow">:</span><span class="prompt-path">~</span><span class="prompt-arrow">$ </span>exit</span>
     <span class="exit-code">[exit code: 0]</span>
   </div>
@@ -427,6 +502,19 @@
   } else {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
     document.querySelectorAll('.skill-bar').forEach((b) => b.classList.add('animated'));
+  }
+
+  /* Hero ASCII 入场 */
+  if (!REDUCED_MOTION) {
+    const heroAscii = document.querySelector('.hero-ascii');
+    if (heroAscii) {
+      requestAnimationFrame(() => {
+        setTimeout(() => heroAscii.classList.add('shown'), 150);
+      });
+    }
+  } else {
+    const heroAscii = document.querySelector('.hero-ascii');
+    if (heroAscii) heroAscii.classList.add('shown');
   }
 
   /* Adaptive 1:数字递增(count-up)== */

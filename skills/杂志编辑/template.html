@@ -337,6 +337,89 @@
   }
   .no-js .reveal { opacity: 1; transform: none; }
 
+  /* === 动效全覆盖:子元素 stagger reveal === */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal[data-reveal-group] > * {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
+    }
+    .reveal[data-reveal-group].visible > * { opacity: 1; transform: none; }
+    .reveal[data-reveal-group].visible > *:nth-child(1) { transition-delay: 0ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(2) { transition-delay: 80ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(3) { transition-delay: 160ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(4) { transition-delay: 240ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(5) { transition-delay: 320ms; }
+    .reveal[data-reveal-group].visible > *:nth-child(6) { transition-delay: 400ms; }
+  }
+  .no-js .reveal[data-reveal-group] > * { opacity: 1; transform: none; }
+
+  /* === 编辑感章节标题下划线绘制(h3 进入时)== */
+  @media (prefers-reduced-motion: no-preference) {
+    .work-info h3::after, .chapter-title::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      margin-top: 8px;
+      transition: width var(--motion-slow) var(--ease-out);
+    }
+    .reveal[data-reveal-group].visible .work-info h3::after { width: 40px; }
+    .reveal.visible .chapter-title::after { width: 60px; }
+  }
+  .no-js .work-info h3::after { width: 40px; }
+  .no-js .chapter-title::after { width: 60px; }
+
+  /* === Section 装饰分隔符绘制 === */
+  .section-divider {
+    transition: opacity var(--motion-slow) var(--ease-out);
+  }
+  .section-divider span {
+    display: inline-block;
+    transition: transform var(--motion-slow) var(--ease-out);
+  }
+  .section-divider.visible span { transform: scale(1.2); }
+
+  /* === 联系区 ¶ 符号脉冲 === */
+  .contact .quote-mark {
+    display: inline-block;
+    transition: transform var(--motion-base) var(--ease-out), color var(--motion-base) ease;
+  }
+  .contact:hover .quote-mark { transform: rotate(-8deg); color: var(--ink); }
+
+  /* === Hero 大数字缓慢入场 === */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-mark {
+      opacity: 0;
+      transform: translateY(-12px) scale(0.95);
+      transition: opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
+    }
+    .hero-mark.shown { opacity: 0.08; transform: none; }
+  }
+  .no-js .hero-mark { opacity: 0.08; }
+
+  /* === Footer accent mark spin === */
+  .footer .accent-mark {
+    display: inline-block;
+    transition: transform var(--motion-slow) var(--ease-out);
+  }
+  .footer:hover .accent-mark { transform: rotate(180deg); }
+
+  /* === Masthead issue tag slide in === */
+  @media (prefers-reduced-motion: no-preference) {
+    .masthead .issue-tag {
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+    .staggered .masthead .issue-tag, .masthead.visible .issue-tag {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .no-js .masthead .issue-tag { opacity: 1; transform: none; }
+
   /* === 动效:Hero stagger(adaptive 2)== */
   @media (prefers-reduced-motion: no-preference) {
     [data-stagger] > * {
@@ -369,14 +452,16 @@
   @media print {
     body { background: white; color: black; background-image: none; }
     .container { max-width: 100%; padding: 24pt; }
-    .hero-mark, .work-img .frame-num { display: none; }
+    .hero-mark, .work-img .frame-num, .masthead .issue-tag { display: none; }
     .name { color: black; font-size: 36pt; }
     .chapter-title { color: black; }
+    .chapter-title::after { width: 60px !important; }
+    .work-info h3::after { width: 40px !important; }
     .chapter-num { color: black; }
     .accent { color: black; }
     .work-info p { color: #333; }
     .work-img { filter: none !important; transform: none !important; border: 1px solid #999; }
-    .reveal, [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+    .reveal, [data-stagger] > *, .reveal[data-reveal-group] > * { opacity: 1 !important; transform: none !important; }
     .contact a { color: black; }
     .footer { color: #666; }
   }
@@ -412,13 +497,13 @@
     <p style="max-width: 600px; color: var(--ink-soft);">{{about_full}}</p>
   </section>
 
-  <!-- 编辑感装饰分隔符 -->
-  <div class="section-divider" aria-hidden="true">
-    <span>◆ Selected Works ◆</span>
+  <!-- 编辑感装饰分隔符(reveal 进入)== -->
+  <div class="section-divider reveal" aria-hidden="true">
+    <span>◆</span> Selected Works <span>◆</span>
   </div>
 
-  <!-- 作品 -->
-  <section class="chapter reveal">
+  <!-- 作品(每张 .work stagger 进入)== -->
+  <section class="chapter reveal" data-reveal-group>
     <div class="chapter-deck">
       <span class="chapter-num">Ⅱ</span>
       <span class="chapter-tag">Chapter · Folio</span>
@@ -450,14 +535,14 @@
   </section>
 
   <!-- 联系 -->
-  <footer class="contact reveal">
+  <footer class="contact reveal" data-reveal-group>
     <span class="quote-mark">¶</span>
     <p>Get in touch · <a href="mailto:{{email}}">{{email}}</a> · <a href="{{portfolio_link}}">{{portfolio_link}}</a></p>
     <p style="font-size: 11px; color: var(--ink-faint); letter-spacing: 0.2em;">{{date}}</p>
   </footer>
 
-  <!-- Footer accent -->
-  <div class="footer">
+  <!-- Footer accent(reveal 进入 + 旋转)== -->
+  <div class="footer reveal" data-reveal-group>
     <span>FOLIO · {{name}}</span>
     <span class="accent-mark">◆</span>
     <em>"{{tagline}}"</em>
@@ -484,6 +569,19 @@
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+  }
+
+  /* Hero 大数字入场 */
+  if (!REDUCED_MOTION) {
+    const heroMark = document.querySelector('.hero-mark');
+    if (heroMark) {
+      requestAnimationFrame(() => {
+        setTimeout(() => heroMark.classList.add('shown'), 200);
+      });
+    }
+  } else {
+    const heroMark = document.querySelector('.hero-mark');
+    if (heroMark) heroMark.classList.add('shown');
   }
 
   /* Adaptive 2:Hero stagger */

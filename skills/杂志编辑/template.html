@@ -244,6 +244,24 @@
   }
   .work-info p { color: var(--ink-soft); font-size: 15px; line-height: 1.7; }
 
+  /* === v1.1.4 contact-item(inline flex + svg,走 flat-icons 库)== */
+  .contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 1px;
+    transition: color var(--motion-fast) var(--ease-out),
+                border-bottom-color var(--motion-fast) var(--ease-out);
+  }
+  .contact-item:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .contact-item svg { flex: none; }
+
   /* === 编辑感装饰分隔符(粗细双线 + ◆ + 页码)== */
   .section-divider {
     display: flex;
@@ -534,10 +552,19 @@
     </div>
   </section>
 
-  <!-- 联系 -->
+  <!-- 联系(走 flat-icons 库)== -->
   <footer class="contact reveal" data-reveal-group>
     <span class="quote-mark">¶</span>
-    <p>Get in touch · <a href="mailto:{{email}}">{{email}}</a> · <a href="{{portfolio_link}}">{{portfolio_link}}</a></p>
+    <p>Get in touch ·
+      <a href="mailto:{{email}}" class="contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+        <span>{{email}}</span>
+      </a> ·
+      <a href="{{portfolio_link}}" class="contact-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15a4 4 0 0 1 0-6l3-3a4 4 0 0 1 6 6l-1 1"/><path d="M15 9a4 4 0 0 1 0 6l-3 3a4 4 0 0 1-6-6l1-1"/></svg>
+        <span>{{portfolio_link}}</span>
+      </a>
+    </p>
     <p style="font-size: 11px; color: var(--ink-faint); letter-spacing: 0.2em;">{{date}}</p>
   </footer>
 

@@ -319,7 +319,7 @@
 - 参考:Michael Alley Assertion-Evidence(Penn State实证)、McKinsey/BCG action-title、Edward Tufte数据墨水比、Barbara Minto金字塔原理
 - 适配:学术/工程汇报、数据严谨型咨询页、政策研报、技术评审
 - 视觉DNA:配色=白/极浅灰底+黑正文+单一克制强调色(深蓝/砖红)。字体=整句话标题(非名词短语)，标题下独占一张图，文字标注嵌进图里。母版=①整句action-title②标题下单图证据③零bullet。标志=整句标题、单图证据、嵌入式标注、零chartjunk、高数据墨水比
-- HTML实现:整句标题靠排版层级；图表用纯CSS/内联SVG画极简折线散点(去网格线去图例，标注直接text定位在数据点旁)；零装饰。Tufte的克制正是HTML强项
+- HTML实现:整句标题靠排版层级；图表用纯CSS/内联SVG画极简折线散点(去网格线去图例，标注直接text定位在数据点旁)。Tufte的克制正是HTML强项
 - 字体:Source Serif / Lora标题 + Inter正文(双字体阅读级)
 
 **瑞士机构极简 / Institutional Swiss Minimal** `安静·还原96%`

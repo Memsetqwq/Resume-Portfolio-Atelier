@@ -37,7 +37,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 零 emoji 默认
 
-主 Agent 出 HTML 默认不嵌入彩色 emoji,装饰位用纯 CSS 形状(`◆` `▲` `■` `●`)/ inline SVG / CSS 伪元素。用户**明确要求**时才用,且 ≤ 3 个。这条高于所有风格偏好。
+主 Agent 出 HTML 默认不嵌入彩色 emoji,装饰位用 `skills/flat-icons/` 的内联 SVG(主方案,Tabler Icons MIT 4000+ 个) / 纯 CSS 形状 / CSS 伪元素。用户**明确要求** emoji 时才用,且 ≤ 3 个。这条高于所有风格偏好。
 
 ### 单文件 HTML 输出
 
@@ -73,6 +73,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `skills/huashu-design/` 目录保留作为**内部参考资源**(SKILL.md + references/ 26 篇),主 Agent 直接读参考文件,不通过 Qclaw 加载
 
 **每个风格 SKILL.md 都有"风格亮点(每份简历都该有的设计亮点 + huashu 蒸馏)"段(v1.1.4 加强)** —— 主 Agent 出 v1 前必读,对照"必装亮点"自检,确保 ≥ 5-6 个亮点出厂自带;极简留白特别强调"动效 + 排版"两条腿制造记忆点(大数字 hero + pull quote + 章节 accent line 是其招牌)。
+
+**每个风格用平面图形替代几何字符**(不单列 skill):
+- [Tabler Icons](https://github.com/tabler/tabler-icons)(MIT,18k+ stars,4000+ 个)的精选 30+ SVG 作为主库
+- `skills/flat-icons/` 是**内部参考资源**(SKILL.md + icons.md + INTEGRATION.md),主 Agent 需要图标时从 `icons.md` 复制 inline SVG 进 HTML
+- 替代之前的几何字符(`◆` `▲` `■` `●`)、emoji 和自制 CSS 装饰
+- `icons.md` 按联系/章节/装饰/操作/数据/时间/品牌 7 类组织,`INTEGRATION.md` 给 4 个风格各自的差异化用法(stroke-width、hover、旋转等)
 
 **1 个参考目录**(不是 skill,主 Agent 内部读):
 - `skills/大厂风格/` — 用户不明确时默认推荐,含 `DESIGN-INDEX.md`(精选 14 家大厂: Vercel/Linear/Apple/The Verge/Notion/Stripe/Clay/Figma 等)
@@ -147,3 +153,5 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `skills/大厂风格/` 整合自 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)(MIT License)——73 个大厂的 DESIGN.md 公开设计系统。
 
 `skills/huashu-design/` 整合自 [alchaincyf/huashu-design](https://github.com/alchaincyf/huashu-design)(MIT License)——花叔 Design,HTML 原生的设计 skill(原型 / 幻灯片 / 动画 / 可视化 / MP4 导出)。v1.1.4 整合,只装了 `SKILL.md` + `LICENSE` + `README.md` + `references/`,完整版(含 scripts/ 和 assets/)见上游仓库。**注意:v1.1.4 加强版起,huashu-design 不再单列为一个 skill,而是融入每个 style 的 SKILL.md 末尾"外溢需求"段,作为内部参考资源存在**。
+
+`skills/flat-icons/` 整合自 [tabler/tabler-icons](https://github.com/tabler/tabler-icons)(MIT License)——Tabler Icons,4000+ 个平面图形图标(MIT,18k+ stars)。v1.1.4 加强版整合,精选 30+ 个按联系/章节/装饰/操作/数据/时间/品牌 7 类组织成 `icons.md`,4 风格的差异化用法写在 `INTEGRATION.md`。**作为内部参考资源存在**(主 Agent 内部读,不通过 Qclaw 加载),替代之前的几何字符(`◆` `▲` `■` `●`)。

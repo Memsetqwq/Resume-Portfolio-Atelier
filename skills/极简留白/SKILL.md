@@ -20,7 +20,7 @@
 - 字号:大标题 48-72px,正文 16px,小字 13px
 - 留白:页面边距至少 64px(桌面),区块 80-120px
 - 网格:8 栏
-- 装饰:零 emoji,零图标,零渐变,几何字符(`◆` `▲` `■` `●`)可用
+- 装饰:零 emoji,零渐变,图标走 `skills/flat-icons/` 的内联 SVG(stroke-width 1.5,极细)
 
 ## 风格亮点(每份简历都该有的记忆锚点 + huashu 蒸馏)
 
@@ -71,17 +71,31 @@
 - 不要用 emoji 当装饰
 - 行高 1.5-1.7,别太紧也别太松
 
-## 动效(锦上添花,关 JS 也能读)
-1. 滚动渐显(每屏淡入 200ms)
-2. 链接 hover 微下划线(150ms)
-3. 章节 h2 前 accent 横线进场(可选,首次进视口从 0 → 24px)
+## 动效(全动效,v1.1.4 加强版)
+
+> 完整动效骨架见 `docs/动效骨架.md`(2 baseline + 5 adaptive + 双向触发)。本风格启用其中:
+>
+> **Baseline 必装**:
+> - B1 滚动渐显:translateY(8px)→ 0,400ms,IntersectionObserver **双向触发**(上下反复滑动都重放)
+> - B2 链接 hover:border-bottom-color 透明 ↔ accent,150ms
+>
+> **Adaptive 按用户特点启用**:
+> - A1 数字递增(双向):metric card ≥ 3 必装,1-2 可选;`data-countup="18"` 属性触发
+> - A2 Hero stagger(双向):header 内 3 子元素(name/title/contact)100ms 间隔错开
+> - A3 章节 accent line 绘制:h2 顶部横线 0→32px,400ms ease-out
+> - A4 子元素 stagger reveal:`.metrics-row` `.section` `.skills-grid` 等容器子元素 60ms 间隔错开进入
+> - A5 装饰元素微动效:**hero "00" 双向入场** + ◆ 角标 hover 旋转 + h3 下划线绘制 + skill-tag underline + metric → 箭头滑入 + project ▸ 箭头旋转 + edu card 顶部 accent line + pull-quote 入场 + timeline-section 垂直时间线
+>
+> **本风格特色**:用**节奏最慢 + 距离最短**(400ms / 8px)+ **最克制的 hover**,让"动效不喧宾夺主";但通过 A1/A4/A5 拉满数字、卡片、装饰元素三层的微动,让"留白"也有呼吸感。
+>
+> **降级 4 重**:关 JS、reduced-motion、IO 不支持、print —— 任何环境都能读完整内容。
 
 ## 主 Agent 调用流程
-1. 读本文 + `template.html`
+1. 读本文 + `template.html` + `docs/动效骨架.md`
 2. 把用户内容按 `{{placeholder}}` 逐项替换
 3. 选 1 个 accent 色(默认 #2563EB 蓝,工程师向)
 4. 输出一份 `~/Downloads/<name>-resume-v1.html`
-5. 自检:双击能开 / 移动端 / 动效不过 2 个
+5. 自检:双击能开 / 移动端 / 双向触发生效(滚到底再滚回顶,每段都重放)
 
 ## 包装区间适配(v1.1 新)
 
@@ -159,7 +173,7 @@
 
 **本风格 + huashu 的纪律**:
 
-- **零 emoji 不破** —— 沿用 SOUL 原则 6,所有图标用 SVG/CSS 几何
+- **零 emoji 不破** —— 沿用 SOUL 原则 6,所有图标走 `skills/flat-icons/` 的内联 SVG
 - **关 JS 可读不破** —— 沿用 SOUL 原则 5,任何外溢产出都是"锦上添花"
 - **反 AI slop 应用** —— 不分点罗列、不堆"此外""值得注意的是",跟本风格的对话语气保持一致
 - **资产协议** —— 如涉及具名产品(Apple/Stripe/Notion 等),huashu 的"必须先走资产协议拿 logo"原则适用,不能编

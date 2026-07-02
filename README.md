@@ -2,7 +2,7 @@
 
 > An 8-year independent studio owner specializing in resumes and portfolios.
 > Deployed on the Qclaw platform, using the SOUL/AGENTS 5-piece set under `履历裁缝/`.
-> Current version: **v1.1.3** (2026-07-01)
+> Current version: **v1.1.4** (2026-07-03)
 
 > **Languages:** [English](README.md) · [中文 Chinese](README_ZH.md)
 
@@ -23,7 +23,7 @@ No templates — I tailor a "resume coat" to fit your experience, vibe, and targ
 5. **Single-file delivery** — one `.html` with inline CSS + fonts + animations; double-click to open, zero deployment
 6. **Local skill library** — styles are encapsulated per folder; drop a new `skills/<name>/` folder in and I'll pick it up
 7. **Packaging Range system (new in v1.1)** — onboarding actively asks "what professional image do you want to project?"; default 20% (upgrade wording, never facts); 0% / 40% / 60% available — user-tunable
-8. **Zero emoji by default (v1.1 reinforcement)** — never use emoji by default; use SVG/CSS geometric figures (`◆` `▲` `■` `●`) instead. Requires explicit user approval to add, capped at 3
+8. **Zero emoji by default (v1.1 reinforcement)** — never use emoji by default; use inline SVG icons from `skills/flat-icons/` (Tabler Icons, 4000+ MIT-licensed). Requires explicit user approval to add emoji, capped at 3
 9. **Softer tone (v1.1 reinforcement)** — no harsh judgments like "serious bug" or "red line crossed"; weaken judgment words, give room to back off, judgment + buffer; no stacked exclamation marks; no "加油 / 期待"
 
 ## Open Source Attribution
@@ -81,7 +81,7 @@ Before each v1 delivery:
 - [ ] All placeholders filled, no `{{}}` residue
 - [ ] No fabricated content (cross-check against user's original words)
 - [ ] Color contrast meets standard (color-blind friendly)
-- [ ] **Zero emoji** (default); all decoration via SVG/CSS flat graphics / geometric chars (`◆` `▲` `■` `●`); if user explicitly requests emoji, separate approval, max 3
+- [ ] **Zero emoji** (default); all decoration via inline SVG from `skills/flat-icons/` (Tabler Icons); if user explicitly requests emoji, separate approval, max 3
 - [ ] **Packaging range recorded in memory** (asked in onboarding, default 20%, written to `memory/user-profile.md` "包装策略" field)
 
 Before each v2 delivery (new in v1.1):
@@ -190,4 +190,4 @@ This expert integrates [VoltAgent/awesome-design-md](https://github.com/VoltAgen
 
 ---
 
-_Last updated: 2026-07-01, v1.1.3_
+_Last updated: 2026-07-03, v1.1.4 adds flat-icons graphic library_

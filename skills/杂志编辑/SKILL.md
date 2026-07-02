@@ -70,16 +70,31 @@
 - 字号反差要够
 - 黑底正文 contrast 至少 4.5:1
 
-## 动效(锦上添花,关 JS 也能读)
-1. 标题逐字显(每字 50ms 错开)
-2. 区块淡入(400ms)
+## 动效(全动效,v1.1.4 加强版)
+
+> 完整动效骨架见 `docs/动效骨架.md`(2 baseline + 5 adaptive + 双向触发)。本风格启用其中:
+>
+> **Baseline 必装**:
+> - B1 滚动渐显:translateY(12px)→ 0,400ms(略柔,editorial 节奏),IntersectionObserver **双向触发**
+> - B2 链接 hover:border-bottom-color 灰 ↔ 米白,150ms
+>
+> **Adaptive 按用户特点启用**:
+> - A1 数字递增:**不装**(杂志编辑无 metric card 视觉位,数字不进硬指标)
+> - A2 Hero stagger(双向):`.masthead` 内 ISSUE NO. / 姓名 / contact **150ms 间隔**(慢,editorial 节奏)
+> - A3 章节 accent line 绘制:**name 下划线 64px → 120px 渐进**,作品 FIG. 编号滑入
+> - A4 子元素 stagger reveal:`.chapter` `.contact` `.footer` 容器子元素 **80ms 间隔**(略慢,翻页感)
+> - A5 装饰元素微动效:**hero "00" 罗马数字双向入场** + ◆ 角标缩放 + ¶ 符号 hover 旋转 + footer accent-mark spin + masthead issue-tag 滑入 + work 卡片灰度→彩色
+>
+> **本风格特色**:用**节奏最慢**(400ms reveal / 150ms stagger)+ **作品级动效**(灰度→彩色 / 罗马数字 / 刊号期号)+ **CHAPTER 编排感**,让"翻一页杂志"的节奏贯穿全卷。
+>
+> **降级 4 重**:关 JS、reduced-motion、IO 不支持、print —— 任何环境都能读完整内容。
 
 ## 主 Agent 调用流程
-1. 读本文 + `template.html`
+1. 读本文 + `template.html` + `docs/动效骨架.md`
 2. 把用户作品图按 `{{placeholder}}` 替换(图大且少)
 3. 选 1 个章节色(默认 #B91C1C 深红)
 4. 输出一份 `~/Downloads/<name>-portfolio-v1.html`
-5. 自检:大图清晰 / 字号反差够 / 动效不过 2 个
+5. 自检:大图清晰 / 字号反差够 / 双向触发生效(滚到底再滚回顶,作品卡片重放灰度→彩色)
 
 ## 包装区间适配(v1.1 新)
 

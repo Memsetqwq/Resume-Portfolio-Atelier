@@ -73,17 +73,31 @@
 - 等宽长段落读起来累,超 3 行换 Inter
 - 别写假代码当装饰
 
-## 动效(锦上添花,关 JS 也能读)
-1. 终端"打字机"效果(主角登场时 1 次)
-2. 链接 hover 翠绿下划线(150ms)
-3. 滚动到区块淡入(200ms)
+## 动效(全动效,v1.1.4 加强版)
+
+> 完整动效骨架见 `docs/动效骨架.md`(2 baseline + 5 adaptive + 双向触发)。本风格启用其中:
+>
+> **Baseline 必装**:
+> - B1 滚动渐显:translateY(4px)→ 0,**200ms**(`--motion-base` 局部覆盖为 200ms,符合终端即时反馈气质),IntersectionObserver **双向触发**
+> - B2 链接 hover:**色 + border 同时变**(翠绿 ↔ 紫,带 dashed border,glitch 感),150ms
+>
+> **Adaptive 按用户特点启用**:
+> - A1 数字递增:不装硬数字 metric;**技能条 bar 进入视口扩展 0→percentage**(双向触发,离开时复位)
+> - A2 Hero stagger(双向):`.prompt-line + h1` 容器子元素 **80ms 间隔**(快,"终端逐行打印"感)
+> - A3 章节 accent line 绘制:section-title 下划线绘制 + 技能水平 bar 扩展
+> - A4 子元素 stagger reveal:`.chapter` `.skill-bar` `.item` 容器子元素 **50ms 间隔**(最速,终端节奏)
+> - A5 装饰元素微动效:**hero ASCII 双向入场** + status bar 滑入 + status dot pulse + command line hover 变色 + footer exit code hover + terminal-exit 各元素 stagger
+>
+> **本风格特色**:用**节奏最快 + 距离最短**(200ms / 4px / 50ms stagger)+ **glitch 错位感**(RGB split / dashed border)+ **skill bar 扩展**(技术感数据可视化),让"按键即出"的终端气质贯穿全文。
+>
+> **降级 4 重**:关 JS、reduced-motion、IO 不支持、print —— 任何环境都能读完整内容。
 
 ## 主 Agent 调用流程
-1. 读本文 + `template.html`
+1. 读本文 + `template.html` + `docs/动效骨架.md`
 2. 把用户技术栈/项目按 `{{placeholder}}` 替换
 3. 默认 accent 用翠绿(#00FF88)
 4. 输出一份 `~/Downloads/<name>-cyber-v1.html`
-5. 自检:等宽字体主导 / 配色比例 80/15/5 / 动效不过 3 个
+5. 自检:等宽字体主导 / 配色比例 80/15/5 / 双向触发生效(滚到底再滚回顶,技能条重扩展)
 
 ## 包装区间适配(v1.1 新)
 

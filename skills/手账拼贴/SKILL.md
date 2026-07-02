@@ -17,7 +17,7 @@
 - 字号:大标题 56-72px(手写字大更可爱)
 - 留白:页面边距 32-48px,内容块**故意轻微错位**(rotate(-1deg)/rotate(1deg))
 - 网格:CSS Grid 故意"破"出格子
-- 装饰:**默认零 emoji**(整条红线),用 SVG 手绘小图标(stroke 风格,统一) + 胶带感(CSS 半透明矩形) + 手绘箭头(SVG) + 几何字符(`◆` `▲` `■` `●`)
+- 装饰:**默认零 emoji**(整条红线),图标走 `skills/flat-icons/` 的内联 SVG(stroke 风格统一) + 胶带感(CSS 半透明矩形) + 手绘箭头(SVG)
 
 ## 风格亮点(每份简历都该有的手作锚点 + huashu 蒸馏)
 
@@ -73,15 +73,31 @@
 - 不用 Comic Sans
 - 拼贴感要 1 个主轴(内容块左对齐),局部才"破"
 
-## 动效(锦上添花,关 JS 也能读)
-1. 滚动到区块时"贴上去"(scale 0.95→1 + 轻微旋转 1°→0°,300ms)
+## 动效(全动效,v1.1.4 加强版)
+
+> 完整动效骨架见 `docs/动效骨架.md`(2 baseline + 5 adaptive + 双向触发)。本风格启用其中:
+>
+> **Baseline 必装**:
+> - B1 滚动渐显:**scale(0.95)+rotate(1deg) → scale(1)+rotate(0)**,300ms(贴上去感),IntersectionObserver **双向触发**
+> - B2 链接 hover:背景色 + 微微 scale(1.02),150ms
+>
+> **Adaptive 按用户特点启用**:
+> - A1 数字递增:**不装**(手账拼贴无 metric card 视觉位)
+> - A2 Hero stagger(双向):`.header` 子元素 **150ms 间隔**(慢,"贴纸一张张贴上"感)
+> - A3 章节 accent line 绘制:**手绘 underline SVG 绘制**(handwritten 抖动效果),贴纸 hover 旋转加深 0.5°
+> - A4 子元素 stagger reveal:`.sticker` 容器子元素 **80ms 间隔**(慢)+ skill-tag 各自角度 stagger
+> - A5 装饰元素微动效:**date-stamp 双向入场**(rotate(8deg) scale(1) 从隐藏态展开)+ section-divider ✿ 旋转放大 + h3 手绘下划线绘制 + 贴纸 hover 旋转加深 + 印章 hover 旋转放大 + footer 圆形印章 spin
+>
+> **本风格特色**:用**节奏最慢 + 最调皮**(300ms reveal / 150ms stagger / 80ms 子元素)+ **rotate + scale 复合变换**(贴纸感)+ **handwritten SVG**(手绘感),让"贴一张手账"的动作贯穿全卷。
+>
+> **降级 4 重**:关 JS、reduced-motion、IO 不支持、print —— 任何环境都能读完整内容。
 
 ## 主 Agent 调用流程
-1. 读本文 + `template.html`
+1. 读本文 + `template.html` + `docs/动效骨架.md`
 2. 把用户内容按 `{{placeholder}}` 替换
 3. 选 2-3 个暖色 accent(默认蜜桃+薄荷+奶黄)
 4. 输出一份 `~/Downloads/<name>-journal-v1.html`
-5. 自检:emoji 适度 / 旋转<2° / 主轴对齐
+5. 自检:emoji 适度 / 旋转<2° / 双向触发生效(滚到底再滚回顶,date-stamp 重贴上去)
 
 ## 包装区间适配(v1.1 新)
 
@@ -114,7 +130,7 @@
 
 **本风格 + huashu 的纪律**:
 
-- **零 emoji 不破** —— 沿用 SOUL 原则 6,所有图标用 SVG 手绘(stroke 风格统一)
+- **零 emoji 不破** —— 沿用 SOUL 原则 6,所有图标走 `skills/flat-icons/` 的内联 SVG(stroke 风格统一)
 - **关 JS 可读不破** —— 沿用 SOUL 原则 5,任何外溢产出都是"锦上添花"
 - **手账调皮语气贯穿** —— 外溢 deck / 原型也保持轻微 rotate + 胶带感,不要突然变严肃
 - **旋转上限不破** —— 所有外溢产出里 rotate 都 ≤ 2°

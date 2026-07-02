@@ -1,8 +1,8 @@
 # 履历裁缝 Agent - 项目进度文档
 
 > 给未来的 Claude 看的快速 resume 文档。
-> 最后更新:2026-07-02
-> 当前版本:**v1.1.4**(统一动效骨架 + 视觉锚点增强 + huashu-design 跨场景辅助)
+> 最后更新:2026-07-03
+> 当前版本:**v1.1.4**(统一动效骨架 + 视觉锚点增强 + huashu-design 跨场景辅助 + flat-icons 平面图形素材库 + 4 风格动效全覆盖)
 
 ---
 
@@ -77,6 +77,35 @@
    - 验证清单加"滚动测试"和"无 unobserve 调用"检查项
 3. **`threshold` 调整**:`0.1` → `0.12` + `rootMargin: '0px 0px -8% 0px'`,防快速划过误触发
 
+**Round 4** —— 用户反馈"别老惦记着几何字符,收集调用平面图形元素,增加一份高 stars 的平面设计图标素材库"+"同时去除所有在极简留白风格之外的超极简相关字样"+"还要零装饰相关"+"保证所有风格都不许提零装饰和超极简,都要拿出对应特色,如果有需要的话你就着手重构 skill,保证在大主题下,都有对应风格的亮点,再次强调:确保全动效"。
+
+落地:
+1. **`skills/flat-icons/` 新建** —— 平面图形素材库(Tabler Icons MIT 18k+ stars,4000+ 个),内部参考资源,不进 Qclaw allowlist:
+   - **`SKILL.md`**:库介绍 + 为什么选 Tabler(对比 Heroicons / Lucide / Phosphor / Iconify)+ 4 风格的差异化用法 + 自检清单
+   - **`icons.md`**:30+ 个精选 SVG 按 7 类组织(联系 / 章节 / 装饰 / 操作 / 数据 / 时间 / 品牌),每类含 Tabler 官方 SVG path,直接 inline 复制可用
+   - **`INTEGRATION.md`**:per-style 详细用法(极简留白 stroke-width=1.5 / 杂志编辑 stroke-width=2 刊头图标 / 赛博未来霓虹色 + drop-shadow / 手账拼贴 rotate(-4deg) 贴纸感)
+2. **`skills/<风格名>/template.html` × 4** —— 联系区全部接入 flat-icons:
+   - **极简留白**:header `.contact` 加 3 个 `.contact-item`(mail/phone/github SVG,stroke-width=1.5,极细)
+   - **杂志编辑**:footer `.contact` 加 2 个 `.contact-item`(mail/link SVG,stroke-width=2,编辑感)
+   - **赛博未来**:`.section.contact` 改成"命令行调用"格式(`$ mail --to / $ git clone / $ call --to`)+ mail/github SVG(霓虹绿/紫双色)
+   - **手账拼贴**:header `.contact` 加 3 个 `.contact-item`(mail/github/link SVG,圆角胶囊背景 + hover rotate(-2deg) scale(1.05))
+   - 每个 style 加配套 `.contact-item` CSS(inline-flex + gap + 颜色 transition + per-style hover 效果)
+3. **`skills/<风格名>/SKILL.md` × 4** —— "动效"小节全部升级:
+   - 旧版只列 3 个动效 → 新版列出 **2 baseline + 5 adaptive** 全套
+   - 每个 style 写明自己启用的动效子集 + per-style 差异化(translateY 距离 / 时长 / stagger 间隔 / hover 行为)
+   - 强调"双向触发 + 4 重降级(关 JS / reduced-motion / IO 不支持 / print)"
+4. **核心文档清洗"零装饰 / 超极简"** —— 已确认 0 残留:
+   - `SOUL.md` 原则 6:从"几何字符 `◆` `▲` `■` `●`"改成"走 `skills/flat-icons/` 内联 SVG"
+   - `AGENTS.md` 默认零 emoji 段:同改
+   - `CLAUDE.md`:加 "每个风格用平面图形替代几何字符" 段;加 Tabler 致谢
+   - `README.md` / `README_ZH.md`:更新"零 emoji 默认"段,加 Tabler Icons 开源致谢行
+   - `docs/效果要素指南.md` 要素 5:"GEOMETRIC DECOR" → "FLAT ICON DECOR"
+   - `docs/风格库.md` 手账拼贴装饰行
+   - `skills/大厂风格/DESIGN-INDEX.md` Vercel/Linear "气质" + "推荐理由" 字段
+   - `skills/huashu-design/references/design-styles.md` Tufte 段
+5. **`skills/极简留白/SKILL.md` + `skills/手账拼贴/SKILL.md`** —— "装饰"行从"几何字符(`◆` `▲` `■` `●`)可用"改成"图标走 `skills/flat-icons/` 内联 SVG"
+6. **`CLAUDE.md` + `README*.md` + `SOUL.md` 版本号** → v1.1.4(2026-07-03),加入 flat-icons 致谢段
+
 核心原则(累积):
 - **Qclaw allowlist 收紧到 4 项** —— huashu-design 不再出现在 `openclaw.json` 的 skills 数组里
 - **主 Agent 拿 huashu 思想走 style SKILL.md** —— 不需要"加载 skill",读 `skills/<风格名>/SKILL.md` 末尾段
@@ -88,7 +117,7 @@
 核心原则:
 - **动效底线不动**:关 JS / prefers-reduced-motion / 打印 / IO 不支持 4 重降级,任何环境都能读
 - **per-style 差异化**:同一套 token + shared script,但各 style 的视觉气质保留(赛博未来 200ms,手账拼贴 -1° rotation)
-- **视觉锚点 ≠ emoji**:仍守 SOUL 原则 6 零 emoji 默认,所有装饰用 SVG / CSS / 几何字符
+- **视觉锚点 ≠ emoji**:仍守 SOUL 原则 6 零 emoji 默认,所有装饰走 `skills/flat-icons/` 内联 SVG(主)+ 纯 CSS 形状 / SVG 几何图形(辅),不再用 `◆` `▲` `■` `●` 几何字符
 
 #### v1.1.3 增量(2026-06-30,今晚)
 

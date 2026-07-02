@@ -604,41 +604,61 @@
   const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.remove('no-js');
 
-  /* Baseline 1:滚动渐显 */
+  /* Baseline 1:滚动渐显(双向触发,上下反复都重放)== */
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          io.unobserve(e.target);
+        } else {
+          // 离开视口:移除,下次再进入时重新触发
+          e.target.classList.remove('visible');
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
   }
 
-  /* Date stamp 入场 */
-  if (!REDUCED_MOTION) {
-    const dateStamp = document.querySelector('.date-stamp');
-    if (dateStamp) {
-      requestAnimationFrame(() => {
-        setTimeout(() => dateStamp.classList.add('shown'), 250);
-      });
+  /* Date stamp 入场(双向触发)== */
+  const dateStamp = document.querySelector('.date-stamp');
+  if (dateStamp) {
+    if (!REDUCED_MOTION && 'IntersectionObserver' in window) {
+      const stampObs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            dateStamp.classList.remove('shown');
+            requestAnimationFrame(() => {
+              setTimeout(() => dateStamp.classList.add('shown'), 60);
+            });
+          } else {
+            dateStamp.classList.remove('shown');
+          }
+        });
+      }, { threshold: 0.1 });
+      stampObs.observe(dateStamp);
+    } else {
+      dateStamp.classList.add('shown');
     }
-  } else {
-    const dateStamp = document.querySelector('.date-stamp');
-    if (dateStamp) dateStamp.classList.add('shown');
   }
 
-  /* Adaptive 2:Hero stagger */
-  if (!REDUCED_MOTION) {
-    document.querySelectorAll('[data-stagger]').forEach((el) => {
-      requestAnimationFrame(() => {
-        setTimeout(() => el.classList.add('staggered'), 80);
+  /* Adaptive 2:Hero stagger(双向触发)== */
+  if (!REDUCED_MOTION && 'IntersectionObserver' in window) {
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const el = e.target;
+        if (e.isIntersecting) {
+          el.classList.remove('staggered');
+          requestAnimationFrame(() => {
+            setTimeout(() => el.classList.add('staggered'), 60);
+          });
+        } else {
+          el.classList.remove('staggered');
+        }
       });
-    });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-stagger]').forEach((el) => staggerObserver.observe(el));
   } else {
     document.querySelectorAll('[data-stagger]').forEach((el) => el.classList.add('staggered'));
   }

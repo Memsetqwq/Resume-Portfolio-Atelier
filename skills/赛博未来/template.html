@@ -483,7 +483,7 @@
   const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.remove('no-js');
 
-  /* Baseline 1:滚动渐显 */
+  /* Baseline 1:滚动渐显(双向触发,上下反复都重放)== */
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
@@ -494,30 +494,44 @@
             const bars = e.target.querySelectorAll('.skill-bar');
             bars.forEach((b, i) => setTimeout(() => b.classList.add('animated'), i * 100));
           }
-          io.unobserve(e.target);
+        } else {
+          // 离开视口:移除,下次再进入时重新触发
+          e.target.classList.remove('visible');
+          if (e.target.classList.contains('section')) {
+            e.target.querySelectorAll('.skill-bar').forEach((b) => b.classList.remove('animated'));
+          }
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   } else {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
     document.querySelectorAll('.skill-bar').forEach((b) => b.classList.add('animated'));
   }
 
-  /* Hero ASCII 入场 */
-  if (!REDUCED_MOTION) {
-    const heroAscii = document.querySelector('.hero-ascii');
-    if (heroAscii) {
-      requestAnimationFrame(() => {
-        setTimeout(() => heroAscii.classList.add('shown'), 150);
-      });
+  /* Hero ASCII 入场(双向触发)== */
+  const heroAscii = document.querySelector('.hero-ascii');
+  if (heroAscii) {
+    if (!REDUCED_MOTION && 'IntersectionObserver' in window) {
+      const asciiObs = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            heroAscii.classList.remove('shown');
+            requestAnimationFrame(() => {
+              setTimeout(() => heroAscii.classList.add('shown'), 60);
+            });
+          } else {
+            heroAscii.classList.remove('shown');
+          }
+        });
+      }, { threshold: 0.05 });
+      asciiObs.observe(heroAscii);
+    } else {
+      heroAscii.classList.add('shown');
     }
-  } else {
-    const heroAscii = document.querySelector('.hero-ascii');
-    if (heroAscii) heroAscii.classList.add('shown');
   }
 
-  /* Adaptive 1:数字递增(count-up)== */
+  /* Adaptive 1:数字递增(count-up · 双向触发)== */
   function countUp(el, target, duration) {
     if (REDUCED_MOTION) { el.textContent = target; return; }
     duration = duration || 600;
@@ -532,31 +546,51 @@
     }
     requestAnimationFrame(tick);
   }
-  if (!REDUCED_MOTION) {
+  if (!REDUCED_MOTION && 'IntersectionObserver' in window) {
     const numObserver = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
+        const el = e.target;
+        const target = parseFloat(el.dataset.countup);
+        if (isNaN(target)) return;
         if (e.isIntersecting) {
-          const el = e.target;
-          const target = parseFloat(el.dataset.countup);
-          if (!isNaN(target)) countUp(el, target);
-          numObserver.unobserve(el);
+          el.textContent = '0';
+          countUp(el, target);
+        } else {
+          // 离开视口:归 0,下次进入时再递增
+          el.textContent = '0';
         }
       });
     }, { threshold: 0.5 });
     document.querySelectorAll('[data-countup]').forEach((el) => numObserver.observe(el));
+  } else if (!REDUCED_MOTION) {
+    // IO 不支持但允许动效:跑一次
+    document.querySelectorAll('[data-countup]').forEach((el) => {
+      const target = parseFloat(el.dataset.countup);
+      if (!isNaN(target)) countUp(el, target);
+    });
   } else {
+    // prefers-reduced-motion:直接显示最终值
     document.querySelectorAll('[data-countup]').forEach((el) => {
       el.textContent = el.dataset.countup;
     });
   }
 
-  /* Adaptive 2:Hero stagger */
-  if (!REDUCED_MOTION) {
-    document.querySelectorAll('[data-stagger]').forEach((el) => {
-      requestAnimationFrame(() => {
-        setTimeout(() => el.classList.add('staggered'), 50);
+  /* Adaptive 2:Hero stagger(双向触发)== */
+  if (!REDUCED_MOTION && 'IntersectionObserver' in window) {
+    const staggerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        const el = e.target;
+        if (e.isIntersecting) {
+          el.classList.remove('staggered');
+          requestAnimationFrame(() => {
+            setTimeout(() => el.classList.add('staggered'), 40);
+          });
+        } else {
+          el.classList.remove('staggered');
+        }
       });
-    });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('[data-stagger]').forEach((el) => staggerObserver.observe(el));
   } else {
     document.querySelectorAll('[data-stagger]').forEach((el) => el.classList.add('staggered'));
   }

@@ -60,11 +60,29 @@
 2. **`skills/极简留白/template.html`** —— 升级到"动效 + 排版双驱"特色,新增 EB Garamond 字体加载 + 6 个新 CSS class + 对应 HTML 占位符 + 响应式 + print CSS fallback
 3. **`CLAUDE.md`** —— 加一行说明"风格亮点段是 v1.1.4 加强版的必装规范,主 Agent 出 v1 前必读自检"
 
-核心原则:
+**Round 3** —— 用户反馈"进一步优化动效,使上下反复滑动都有相关动效,每个部分都有相关动效"。
+
+落地:
+1. **`skills/<风格名>/template.html` × 4** —— 把所有 IntersectionObserver 从"单次触发(unobserve 后不再触发)"改成"**双向触发(进入视口加 class,离开视口移除 class,下次进入再触发)**"。覆盖:
+   - **Baseline 1** 滚动渐显:进入 → 加 `.visible` / `.revealed`,离开 → 移除
+   - **Adaptive 1** count-up:进入 → 归 0 → 递增,离开 → 归 0
+   - **Adaptive 2** Hero stagger:进入 → 移除 `.staggered` → 下一帧加 `.staggered`(CSS 重跑 stagger),离开 → 移除
+   - **Adaptive 5** Hero 装饰:hero-mark / hero-ascii / date-stamp 各自 IO 触发,双向重放
+   - **赛博未来 skill-bar**:容器进入视口时给所有 `.skill-bar` 加 `.animated`,离开时移除
+2. **`docs/动效骨架.md`** —— 全面更新:
+   - 一句话加"双向触发"
+   - 每个 Adaptive 段加"双向触发(v1.1.4 加强版)"说明
+   - 共享脚本段重写为双向版本(去掉 `unobserve`,加 `else remove`)
+   - 主 Agent 决策表加"双向"标注
+   - 验证清单加"滚动测试"和"无 unobserve 调用"检查项
+3. **`threshold` 调整**:`0.1` → `0.12` + `rootMargin: '0px 0px -8% 0px'`,防快速划过误触发
+
+核心原则(累积):
 - **Qclaw allowlist 收紧到 4 项** —— huashu-design 不再出现在 `openclaw.json` 的 skills 数组里
 - **主 Agent 拿 huashu 思想走 style SKILL.md** —— 不需要"加载 skill",读 `skills/<风格名>/SKILL.md` 末尾段
 - **每份 HTML 出厂默认 ≥ 5-6 个亮点** —— 不靠用户提示,模板自带,主 Agent 对照必装清单自检
 - **极简留白的记忆锚点** —— 大数字 + pull quote + accent line 三件套是招牌,辅以 asymmetric anchor block / timeline / word mark / contact-box 让"克制的排版"也有记忆点
+- **所有动效双向触发** —— 上下反复滑动都会重放入场动画,不是"看过一次就静默";不破坏 `prefers-reduced-motion` 降级 / `.no-js` fallback / 打印 print CSS
 - **`skills/huashu-design/` 目录不删** —— 主 Agent 遇到具体外溢需求时,按需读 `references/slide-decks.md` 等深文档
 
 核心原则:

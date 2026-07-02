@@ -1,0 +1,26 @@
+{
+  "name": "huashu-design",
+  "version": "1.1.4",
+  "author": "履历裁缝工作室主理人(集成自 alchaincyf/huashu-design MIT)",
+  "type": "internal-reference",
+  "load_via_qclaw_allowlist": false,
+  "source": "alchaincyf/huashu-design (MIT) — HTML 原生设计参考资源",
+  "integration_pattern": "融入每个 style SKILL.md 末尾的'外溢需求'段,不单列 skill",
+  "tags": [
+    "reference",
+    "design-philosophy",
+    "anti-ai-slop",
+    "animation-pitfalls",
+    "deck-flow",
+    "asset-protocol",
+    "prototype",
+    "slide-deck",
+    "visualization"
+  ],
+  "files_included": [
+    "SKILL.md",
+    "LICENSE",
+    "README.md",
+    "references/"
+  ]
+}

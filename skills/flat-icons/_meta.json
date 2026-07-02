@@ -1,0 +1,39 @@
+{
+  "name": "flat-icons",
+  "version": "1.1.4",
+  "author": "履历裁缝工作室主理人(集成自 tabler/tabler-icons MIT)",
+  "type": "internal-reference",
+  "load_via_qclaw_allowlist": false,
+  "source": "tabler/tabler-icons (MIT, 18k+ stars, 4000+ icons)",
+  "integration_pattern": "主 Agent 需要图标时,从 icons.md 复制 inline SVG 进 HTML",
+  "tags": [
+    "reference",
+    "flat-graphic",
+    "icon-library",
+    "tabler-icons",
+    "inline-svg",
+    "stroke-currentcolor",
+    "replace-geometric-chars"
+  ],
+  "files_included": [
+    "SKILL.md",
+    "icons.md",
+    "INTEGRATION.md"
+  ],
+  "curated_count": 30,
+  "categories": [
+    "联系",
+    "章节",
+    "装饰",
+    "操作",
+    "数据",
+    "时间",
+    "品牌"
+  ],
+  "replaces": [
+    "几何字符 ◆",
+    "几何字符 ▲",
+    "几何字符 ■",
+    "几何字符 ●"
+  ]
+}

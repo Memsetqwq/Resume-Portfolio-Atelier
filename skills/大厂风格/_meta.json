@@ -1,0 +1,28 @@
+{
+  "name": "大厂风格",
+  "version": "1.1.4",
+  "author": "履历裁缝工作室主理人",
+  "type": "internal-reference",
+  "load_via_qclaw_allowlist": false,
+  "source": "VoltAgent/awesome-design-md (MIT) — 73 家完整大厂 DESIGN.md",
+  "curated_count": 14,
+  "tags": [
+    "reference",
+    "design-system",
+    "big-tech",
+    "vercel",
+    "linear",
+    "raycast",
+    "cursor",
+    "the-verge",
+    "wired",
+    "sanity",
+    "apple",
+    "notion",
+    "stripe",
+    "mintlify",
+    "clay",
+    "figma",
+    "voltagent"
+  ]
+}

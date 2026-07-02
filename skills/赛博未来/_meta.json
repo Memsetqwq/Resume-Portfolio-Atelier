@@ -1,0 +1,21 @@
+{
+  "name": "赛博未来",
+  "version": "1.1.4",
+  "author": "履历裁缝工作室主理人",
+  "tags": [
+    "style",
+    "cyberpunk",
+    "terminal",
+    "neon",
+    "backend",
+    "ai-engineer",
+    "security",
+    "single-file-html",
+    "jetbrains-mono",
+    "monospace",
+    "default-20-percent"
+  ],
+  "deliverable": "single-file-html",
+  "default_packaging_range": "20%",
+  "frontmatter_required_in_skill_md": true
+}

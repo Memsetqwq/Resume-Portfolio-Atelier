@@ -19,6 +19,46 @@
 - 网格:12 栏非对称,大胆断栏
 - 装饰:大写罗马数字章节号 / 细线分隔 / 数字+文字混排
 
+## 风格亮点(每份作品集都该有的编辑感锚点 + huashu 蒸馏)
+
+> v1.1.4 加强版:杂志编辑的"编辑感"靠**标志性视觉元素撑起来**,不靠炫技。每份出厂自带 ≥ 6 个亮点。
+
+### 必装亮点(主 Agent 出 v1 默认加上)
+
+- **◆ CHAPTER 罗马数字**:每个章节左上角 120px EB Garamond I/II/III,8-12% opacity,白色描边
+  - 触发:**必装**,这是杂志感的招牌
+- **◆ ISSUE NO. + DATE**:hero 顶部 1 行 "ISSUE NO. 2026 / 2026.JUL" 风格化小字(JetBrains Mono)
+  - 触发:**必装**,强化"期号"概念
+- **◆ ¶ 段落起始符**:每段经历 / 项目 bullet 开头 1 个 ¶ pilcrow 符号作为视觉锚
+  - 触发:**必装**,给文字段落"段落起始感"
+- **◆ 首字下沉(drop cap)**:正文段首字母放大 4-5 行高度,EB Garamond 斜体,accent 色
+  - 触发:**必装**(在自传 / 关于我 / 项目介绍段)
+- **◆ 作品灰度 → 彩色**:作品图默认 100% 灰度,hover 时平滑转彩色(已实现)
+  - 触发:作品集场合**必装**
+- **◆ CONTACT 区块尾符**:联系信息尾部 1 个 ¶ 大符号(80px) + "end of issue" 11px 斜体小字
+  - 触发:**必装**,呼应杂志的"刊号"结束感
+
+### 编辑式排版(按用户特点选装)
+
+- **大图 break**:作品集场合,1 张封面作品占满首屏宽度(180-260px 高度),禁止缩到 50% 以下
+- **magazine caption**:每个作品配 1 行 11px 斜体说明 —— "项目名 · 角色 · 年份"
+- **pull quote 中断**:1-2 句核心总结单独占 1 屏,大号斜体衬线 + 深色背景块
+- **侧栏旁注(margin note)**:正文 + 11px 斜体小注穿插,占右栏空间(杂志感最强的小手段)
+
+### huashu 蒸馏(Apple gallery showcase + cinematic patterns)
+
+1. **慢节奏 reveal**(400-600ms) —— 不用快速 fade,要 magazine 翻页的感觉
+2. **印刷级 typography** —— EB Garamond + Inter + JetBrains Mono 三层,字号反差 80-120px vs 12-14px caption
+3. **chapter 编排** —— 每个章节像翻一页,顶部罗马数字 + 章节名 + issue date
+4. **choreography** —— 章节内子元素 stagger 入场(80ms 间隔),不用同步出现
+5. **资产协议** —— 设计师作品配图、公司 logo / 品牌色优先用官方 SVG,不能用 emoji 占位
+
+### 包装区间联动(v1.1.4)
+
+- **20%(默认)**:CHAPTER + ISSUE NO. + ¶ + drop cap 基础四件套,作品图用占位
+- **40%**:加首字下沉 + caption,作品图必须有(占位不给)
+- **60%**:加 pull quote 中断 + 侧栏旁注 + 大图 break,装饰可以铺开
+
 ## 触发关键词
 - "杂志"/"editorial"/"大气"/"艺术感"
 - "设计师向"/"插画师"
@@ -56,3 +96,18 @@
 5. 40% 区间可以用"主导",但不能用"独立负责 / 精通"
 
 **风格对包装的友好度:** 中(留白 + 编辑感平衡,20-40% 都合理)
+
+## 外溢需求(huashu-design 思想融入)
+
+> v1.1.4 起,huashu-design 不再单列为 skill。它的设计哲学作为本风格的"溢出能力"存在。
+
+**用户说这些词时,启用外溢能力**:
+
+| 用户说 | 本风格怎么做 |
+|--------|------------|
+| "我想做作品集 deck" | 沿用本风格的 EB Garamond 大标题 + 章节罗马数字 I/II/III,做 1920×1080 slide deck,每页一张作品 + 章节号,整体像一本数字杂志。参考 `skills/huashu-design/references/slide-decks.md` |
+| "作品集做成可点击原型" | 用本风格的网格 12 栏 + 罗马数字章节做导航,点击章节平滑滚动。参考 `skills/huashu-design/references/interactive-prototypes.md` |
+| "作品展示加动效" | 沿用本风格的慢节奏 reveal(400ms+),作品 hover 时灰度→彩色(已在 template 里),不用快速 fade。参考 `skills/huashu-design/references/animation-best-practices.md` |
+| "做信息图 / 项目数据图" | 沿用本风格的编辑感排版,图表用 SVG inline,深色背景配奶白图注。参考 `skills/huashu-design/references/visualization.md` |
+
+**本风格 + huashu 的纪律**:零 emoji 不破 / 关 JS 可读不破 / 编辑感语气贯穿 / 涉及具名品牌走资产协议。

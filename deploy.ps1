@@ -73,7 +73,7 @@ if ($SkillsOnly) {
         Copy-Item -Path "$skillsSrc\*" -Destination $skillsDst -Recurse -Force
     }
     Write-OK "skills/ 已同步"
-    Write-Step "完成!记得检查 openclaw.json 的 allowlist 包含: 极简留白, 杂志编辑, 赛博未来, 手账拼贴, huashu-design"
+    Write-Step "完成!记得检查 openclaw.json 的 allowlist 包含: 极简留白, 杂志编辑, 赛博未来, 手账拼贴(huashu-design 是内部参考,不需要 allowlist)"
     exit 0
 }
 
@@ -136,15 +136,15 @@ Write-Step "Step 6/6:部署报告"
 Write-Host ""
 Write-Host "    部署到: $Workspace" -ForegroundColor White
 Write-Host ""
-Write-Host "    5 个 skill(必须加到 openclaw.json 的 skills 数组):" -ForegroundColor White
+Write-Host "    4 个 style skill(必须加到 openclaw.json 的 skills 数组):" -ForegroundColor White
 Write-Host "      - 极简留白" -ForegroundColor Gray
 Write-Host "      - 杂志编辑" -ForegroundColor Gray
 Write-Host "      - 赛博未来" -ForegroundColor Gray
 Write-Host "      - 手账拼贴" -ForegroundColor Gray
-Write-Host "      - huashu-design  (跨场景辅助:幻灯片/原型/动画/可视化)" -ForegroundColor Gray
 Write-Host ""
-Write-Host "    1 个参考目录(不需要 allowlist):" -ForegroundColor White
+Write-Host "    2 个内部参考资源(不需要 allowlist):" -ForegroundColor White
 Write-Host "      - 大厂风格/  (模块 3 大厂风推荐用,Agent 内部读 DESIGN-INDEX.md)" -ForegroundColor Gray
+Write-Host "      - huashu-design/  (v1.1.4 起融入每个 style 的 SKILL.md 末尾,主 Agent 内部读)" -ForegroundColor Gray
 Write-Host ""
 
 if (-not $SkipOpenclaw) {
@@ -157,7 +157,7 @@ Write-OK "部署完成!"
 Write-Host ""
 Write-Host "下一步:" -ForegroundColor Cyan
 Write-Host "  1. 打开 $Workspace\openclaw.json" -ForegroundColor White
-Write-Host "  2. 在 agent 的 skills 数组里追加: [极简留白, 杂志编辑, 赛博未来, 手账拼贴, huashu-design]" -ForegroundColor White
+Write-Host "  2. 在 agent 的 skills 数组里追加: [极简留白, 杂志编辑, 赛博未来, 手账拼贴]" -ForegroundColor White
 Write-Host "  3. 重启 Agent / 开新会话" -ForegroundColor White
 Write-Host "  4. 让 Agent 跑一次 'skill 健康自检'(详见 DEPLOY.md §五)" -ForegroundColor White
 Write-Host ""

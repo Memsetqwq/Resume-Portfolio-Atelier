@@ -22,6 +22,43 @@
 - 网格:8 栏
 - 装饰:零 emoji,零图标,零渐变,几何字符(`◆` `▲` `■` `●`)可用
 
+## 风格亮点(每份简历都该有的记忆锚点 + huashu 蒸馏)
+
+> v1.1.4 加强版:极简留白虽然"克制",但**必须**靠动效 + 排版两条腿制造记忆点。每份出厂自带 ≥ 5 个亮点,主 Agent 出 v1 前**必看本段**对照自检。
+
+### 必装亮点(主 Agent 出 v1 默认加上)
+
+- **◆ 大数字 hero**:姓名区 1-3 个 metric(项目数 / 经验年数 / 用户数),从 16px 滚动放大到 96px,count-up 800ms
+  - 触发:有 ≥ 1 个硬数字即加,放在姓名右上方
+- **◆ 编辑式 pull quote**:hero 区下方 1 句"我是谁"大写衬线斜体(EB Garamond / Noto Serif SC),左侧 4px 主 accent 竖条
+  - 触发:**必装**,这是极简风的"招牌"
+- **◆ 章节 accent line**:每个 h2 顶部 1 条 24px 主 accent 横线,滚动入场从 0 → 24px
+  - 触发:**必装**
+- **◆ 时间线视觉锚**:经历 ≥ 4 段时,左侧 2px 主 accent 竖线 + dot 标记,经历卡片延展
+  - 触发:经历 ≥ 4 段才加
+- **◆ 不对称 anchor block**:hero 区右侧"破"出 8 栏网格,放 1 张个人照 / 1 个代表性 word mark / 1 句座右铭
+  - 触发:用户给了照片或代表性标签才加
+
+### 排版突破点(按用户特点选装)
+
+- **word mark**:用户有"代表性技能标签"(如"Python 十年"/"Figma 重度"),用 36-48px + 0.4em 字间距单独呈现,加 accent 下划线
+- **CONTACT box**:联系方式区用 2px 主 accent 边框包起来,callout 感
+- **印刷感纹理**:全 hero 区用 SVG filter 给主标题加 0.05 opacity 噪声(装饰预算 ≤ 1 处,可选)
+
+### huashu 蒸馏(主 Agent 出 v1 前必过)
+
+1. **反 AI slop** —— 不用千篇一律的"通用模板"骨架,版式要让人一眼看出是手工做的
+2. **印刷级排版** —— letter-spacing 0.01em 起步,line-height 1.5-1.65,中英文混排 Noto Sans SC fallback
+3. **动效节制** —— 4 重降级(关 JS / reduced-motion / IO 不支持 / print)任何环境都能读
+4. **资产协议** —— 涉及具名品牌 logo 必须先问用户有没有 SVG,不能 emoji 占位
+5. **PDF 友好** —— `@media print` 关闭所有动效,黑底白字 fallback 处理好
+
+### 包装区间联动(v1.1.4)
+
+- **20%(默认)**:保留"大数字 + pull quote + accent line + 编辑式衬线"4 件套
+- **40%**:加不对称 anchor block(个人照片 / word mark 顶到右栏),hero 区可稍宽
+- **60%**:加 word mark + 印刷感纹理,字号可加大,但仍只用 1 个 accent(克制不能破)
+
 ## 触发关键词
 - "极简"/"克制"/"冷淡"/"高级"
 - "投大厂"/"投外企"
@@ -106,3 +143,23 @@
 - [Vercel 风格](https://vercel.com) — 黑白精确,Geist 字体
 - [Linear 风格](https://linear.app) — 深色+紫,极简
 - [Notion 风格](https://notion.com) — 温暖极简,serif 标题
+
+## 外溢需求(huashu-design 思想融入)
+
+> v1.1.4 起,huashu-design 不再单列为 skill。它的反 AI slop / 动画 pitfalls / 演示 deck 流程 / 资产协议,作为本风格的"溢出能力"存在 —— 用户外溢需求时按以下原则处理。
+
+**用户说这些词时,启用外溢能力**(主 Agent 自动判断,不需要切 skill):
+
+| 用户说 | 本风格怎么做 |
+|--------|------------|
+| "我想做自我介绍的 PPT / deck" | 沿用极简留白的**黑白 + 1 accent + 8 栏网格**作为幻灯片视觉基底,slide 16:9,每页 1 句话 + 1 数据点。参考 `skills/huashu-design/references/slide-decks.md` |
+| "把这个项目做成可点击原型" | 用本风格的极简色 + 大留白做 mockup,点击区域加 hover 反馈。参考 `skills/huashu-design/references/interactive-prototypes.md` |
+| "帮我做段动效演示" | 用本风格的 `--motion-fast/base/slow` token 作时间曲线,避免突然的 0.3s fade。参考 `skills/huashu-design/references/animation-best-practices.md` |
+| "做信息图 / 数据可视化" | 沿用极简的字体(Inter) + 数据卡片色板,图表用 SVG 内联,不引第三方库。参考 `skills/huashu-design/references/visualization.md` |
+
+**本风格 + huashu 的纪律**:
+
+- **零 emoji 不破** —— 沿用 SOUL 原则 6,所有图标用 SVG/CSS 几何
+- **关 JS 可读不破** —— 沿用 SOUL 原则 5,任何外溢产出都是"锦上添花"
+- **反 AI slop 应用** —— 不分点罗列、不堆"此外""值得注意的是",跟本风格的对话语气保持一致
+- **资产协议** —— 如涉及具名产品(Apple/Stripe/Notion 等),huashu 的"必须先走资产协议拿 logo"原则适用,不能编

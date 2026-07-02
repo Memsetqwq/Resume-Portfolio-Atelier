@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{name}} - {{title}}</title>
 
-<!-- Google Fonts:Inter + JetBrains Mono -->
+<!-- Google Fonts:Inter + EB Garamond(编辑式衬线)+ JetBrains Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
 <style>
   /* === 重置 + 字体 fallback === */
@@ -156,6 +156,121 @@
     font-size: 14px;
     letter-spacing: 1em;
     opacity: 0.5;
+  }
+
+  /* === v1.1.4 编辑式 pull quote(大号衬线斜体)+ 印刷感纹理(SVG 噪声)=== */
+  .pull-quote {
+    font-family: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(20px, 3.4vw, 28px);
+    line-height: 1.5;
+    color: var(--ink);
+    border-left: 4px solid var(--accent);
+    padding: 18px 0 18px 24px;
+    margin: 36px 0 48px;
+    max-width: 92%;
+    position: relative;
+    /* 印刷感纹理:SVG noise filter 微噪 */
+  }
+  .pull-quote::before {
+    content: '"';
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 56px;
+    color: var(--accent);
+    opacity: 0.35;
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    line-height: 1;
+    pointer-events: none;
+  }
+  /* SVG noise filter(印刷感)用于极简 hero h1 */
+  svg.noise-source { position: absolute; width: 0; height: 0; }
+
+  /* === v1.1.4 word mark(代表性 skill 单独大字)== */
+  .word-mark {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(28px, 4.5vw, 42px);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    line-height: 1.15;
+    margin: 24px 0;
+    padding: 6px 0;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+
+  /* === v1.1.4 CONTACT box(联系方式 callout)== */
+  .contact-box {
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 32px 0;
+    background: rgba(37, 99, 235, 0.02);
+  }
+
+  /* === v1.1.4 不对称 anchor block(故意破 8 栏,个人信息锚)== */
+  .anchor-block {
+    float: right;
+    margin: 0 -120px 24px 32px;
+    max-width: 280px;
+    padding: 24px;
+    background: var(--accent-warm-soft);
+    border-radius: 4px;
+    position: relative;
+    transform: rotate(-0.4deg);
+  }
+  .anchor-block .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .anchor-block .value {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+
+  /* === v1.1.4 时间线视觉锚(经历 ≥ 4 段时启用)== */
+  .timeline-section { position: relative; padding-left: 28px; }
+  .timeline-section::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+  .timeline-section .exp-card {
+    position: relative;
+    border-left: none;
+    background: transparent;
+    padding-left: 16px;
+  }
+  .timeline-section .exp-card::before {
+    content: '';
+    position: absolute;
+    left: -28px;
+    top: 18px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid #FAFAFA;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .timeline-section .exp-card:hover::before {
+    transform: scale(1.3);
+    transition: transform var(--motion-fast) var(--ease-out);
   }
 
   /* === v1.1.4 数据卡片化(顶部 metric row)== */
@@ -485,6 +600,11 @@
     .exp-card { padding-left: 14px; padding-right: 14px; margin-bottom: 22px; }
     .skills-grid { grid-template-columns: 1fr; }
     .footer { flex-direction: column; gap: 8px; align-items: flex-start; }
+    .pull-quote { font-size: 18px; padding-left: 18px; }
+    .pull-quote::before { font-size: 40px; }
+    .anchor-block { float: none; max-width: 100%; margin: 16px 0; transform: none; }
+    .timeline-section { padding-left: 22px; }
+    .timeline-section .exp-card::before { left: -24px; }
   }
 
   /* === Print CSS === */
@@ -503,11 +623,27 @@
     }
     .skill-tag::after, .edu-card::before, .metric::after { display: none !important; }
     .footer { display: none; }
+    /* v1.1.4 新元素 print 友好 */
+    .pull-quote { border-left: 4px solid #333; background: white; padding: 12pt 0 12pt 14pt; font-style: italic; break-inside: avoid; }
+    .pull-quote::before { display: none; }
+    .anchor-block { float: right; max-width: 180pt; transform: none; background: white; border: 1px solid #999; padding: 8pt; break-inside: avoid; }
+    .timeline-section::before { background: #333; }
+    .timeline-section .exp-card::before { border-color: white; box-shadow: 0 0 0 1pt #333; }
+    .contact-box { border: 1px solid #333; background: white; }
+    .word-mark { border-bottom: 1px solid #333; }
   }
 </style>
 </head>
-<body class="no-js">
+<body class="no-js>
 <div class="container">
+
+  <!-- SVG noise filter(印刷感纹理源)== -->
+  <svg class="noise-source" aria-hidden="true">
+    <filter id="paper-noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0"/>
+    </filter>
+  </svg>
 
   <!-- Hero 装饰大数字 -->
   <div class="hero-mark" aria-hidden="true">00</div>
@@ -522,6 +658,18 @@
       <span>{{github}}</span>
     </p>
   </header>
+
+  <!-- v1.1.4 编辑式 pull quote(必装 —— 极简风的招牌)== -->
+  <!-- 主 Agent 用 1 句"我是谁"大写衬线斜体替换 {{pull_quote}};不要超过 2 句 -->
+  <aside class="pull-quote reveal">{{pull_quote}}</aside>
+
+  <!-- v1.1.4 不对称 anchor block(按用户特点选装:有照片 / word mark 时用)== -->
+  <!-- 主 Agent 如果用户提供了代表性 word mark(如"Python 十年"),替换 {{anchor_label}} / {{anchor_value}} -->
+  <!-- 无则删除本块,改用 timeline section -->
+  <aside class="anchor-block reveal">
+    <div class="label">{{anchor_label}}</div>
+    <div class="value">{{anchor_value}}</div>
+  </aside>
 
   <!-- v1.1.4 数据卡片化:数字从 bullets 里抽出来做成 metric card -->
   <!-- 主 Agent 根据本用户的硬数字密度自适应:0-1 个删整个 section,2-4 个增减 .metric 数量 -->

@@ -24,7 +24,7 @@ huashu-design 是一个**HTML 原生的设计 skill**,覆盖:
 
 ## 我们为什么装它
 
-**履历裁缝** 的本职是"简历/作品集 HTML 输出",5 个 style skill(极简留白/杂志编辑/赛博未来/手账拼贴/大厂风)覆盖了常规求职/留学/接单场景。
+**履历裁缝** 的本职是"简历/作品集 HTML 输出",4 个 style skill(极简留白/杂志编辑/赛博未来/手账拼贴)+ 大厂风参考目录覆盖了常规求职/留学/接单场景。
 
 但用户有时候会**外溢需求**到履历裁缝本职之外:
 
@@ -35,15 +35,17 @@ huashu-design 是一个**HTML 原生的设计 skill**,覆盖:
 
 这些**不是简历/作品集**,但属于"HTML 做视觉产出"的相邻场景 —— huashu-design 正好覆盖。
 
+**设计哲学已在 v1.1.4 加强版融入每个 style SKILL.md 末尾的"外溢需求"段**,主 Agent 通过 4 个 style skill 直接拿到(无需单独加载 huashu-design skill)。本目录(`skills/huashu-design/`)作为**内部参考资源**保留(SKILL.md + references/ 26 篇),主 Agent 遇到具体外溢需求时可按需读 `references/` 下的对应文档。
+
 **启用时机**(主 Agent 决策):
 
-| 用户说 | 走哪个 skill |
-|--------|------------|
-| "帮我做简历" / "做个作品集" | **走我们 5 个 style skill**(huashu-design 不参与) |
-| "帮我做个介绍自己的 PPT/deck" / "做成 1920×1080 的幻灯片" | **走 huashu-design**(走它的 deck 流程) |
-| "这个项目能做成可点击的原型吗" | **走 huashu-design**(走它的 App 原型流程) |
-| "我想做段动画演示" / "导出 MP4" | **走 huashu-design**(走它的 motion design 流程) |
-| "我想做信息图" / "可视化对比" | **走 huashu-design**(走它的 viz 流程) |
+| 用户说 | 走哪个流程 |
+|--------|----------|
+| "帮我做简历" / "做个作品集" | **走 4 个 style skill**(huashu-design 不参与) |
+| "帮我做个介绍自己的 PPT/deck" / "做成 1920×1080 的幻灯片" | **走本风格 SKILL.md 末尾"外溢需求"段**,或直接读 `references/slide-decks.md` |
+| "这个项目能做成可点击的原型吗" | **走本风格 SKILL.md 末尾"外溢需求"段**,或直接读 `references/interactive-prototypes.md` |
+| "我想做段动画演示" / "导出 MP4" | **走本风格 SKILL.md 末尾"外溢需求"段**,或直接读 `references/animation-best-practices.md` |
+| "我想做信息图" / "可视化对比" | **走本风格 SKILL.md 末尾"外溢需求"段**,或直接读 `references/visualization.md` |
 
 ---
 

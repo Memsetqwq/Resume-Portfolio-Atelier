@@ -37,7 +37,35 @@
 - `skills/杂志编辑/template.html` —— 重写,接入动效骨架 + 视觉锚点(罗马数字 CHAPTER / ISSUE NO. / ¶ 联系符 / 作品灰度→彩色)
 - `skills/赛博未来/template.html` —— 重写,接入动效骨架 + 视觉锚点(ASCII 装饰 / status bar + pulse / glitch hover / 技能条渐变)
 - `skills/手账拼贴/template.html` —— 重写,接入动效骨架 + 视觉锚点(日期贴纸 / handwritten-underline / chapter-mark 圆圈 / footer 圆形印章)
-- `skills/huashu-design/`(新)—— 上游 MIT skill(SKILL.md + LICENSE + README + 26 references),INTÈGRATION.md 说明何时启用 / 跳过什么
+- `skills/huashu-design/`(新 → 加强版不再单列)—— 上游 MIT skill(SKILL.md + LICENSE + README + 26 references),INTEGRATION.md 说明何时启用 / 跳过什么
+
+#### v1.1.4 加强版(2026-07-02 后)
+
+**Round 1** —— 用户反馈"不要单列 huashu-design,将他融入每个风格中去"。
+
+落地:
+1. **CLAUDE.md / AGENTS.md / DEPLOY.md / deploy.ps1** —— huashu-design 从 skill 列表里去除,改为"内部参考资源";allowlist 从 5 项收缩到 4 项(只剩 4 个 style skill)
+2. **`skills/<风格名>/SKILL.md` × 4** —— 每个 SKILL.md 末尾追加"外溢需求(huashu-design 思想融入)"段,内含 PPT / 原型 / 动效 / 可视化 4 个表项 + 本风格 + huashu 的纪律
+3. **`skills/huashu-design/INTEGRATION.md`** —— 措辞更新,明确本目录只作内部参考,Soul/AGENTS/4 个 style SKILL.md 是主路径
+4. **`PROGRESS.md` / `README_ZH.md`** —— 开源致谢段标注"v1.1.4 起融入每个 style 的 SKILL.md 末尾,不再单列 skill"
+
+**Round 2** —— 用户反馈"按其他风格方向蒸馏 huashu-design,各自增加内容要求,使各风格更有特色和亮点;极简风也要增加动效/排版使其有记忆点"。
+
+落地:
+1. **`skills/<风格名>/SKILL.md` × 4** —— 每个 SKILL.md 在"包装区间适配"之前增加"**风格亮点(每份简历都该有的设计亮点 + huashu 蒸馏)**"段:
+   - **极简留白**(必装 5 件套):大数字 hero + 编辑式 pull quote + 不对称 anchor block + 章节 accent line + 时间线视觉锚 —— 加上 EB Garamond 字体 + `.pull-quote` + `.anchor-block` + `.word-mark` + `.contact-box` + `.timeline-section` + SVG noise filter 一整套新元素到 `template.html`
+   - **杂志编辑**(必装 6 件套):CHAPTER 罗马数字 + ISSUE NO. + ¶ 段落起始符 + 首字下沉 + 灰度→彩色 + CONTACT ¶ 尾符
+   - **赛博未来**(必装 6 件套):`$` prompt + 闪烁光标 + status bar + ASCII 边框 + glitch hover + `█` 加载进度条 + 终端输出模拟
+   - **手账拼贴**(必装 6 件套):washi tape + chapter-mark 圆圈 + handwritten underline + date stamp + ¶ 联系符 + footer 印章 / 邮戳
+2. **`skills/极简留白/template.html`** —— 升级到"动效 + 排版双驱"特色,新增 EB Garamond 字体加载 + 6 个新 CSS class + 对应 HTML 占位符 + 响应式 + print CSS fallback
+3. **`CLAUDE.md`** —— 加一行说明"风格亮点段是 v1.1.4 加强版的必装规范,主 Agent 出 v1 前必读自检"
+
+核心原则:
+- **Qclaw allowlist 收紧到 4 项** —— huashu-design 不再出现在 `openclaw.json` 的 skills 数组里
+- **主 Agent 拿 huashu 思想走 style SKILL.md** —— 不需要"加载 skill",读 `skills/<风格名>/SKILL.md` 末尾段
+- **每份 HTML 出厂默认 ≥ 5-6 个亮点** —— 不靠用户提示,模板自带,主 Agent 对照必装清单自检
+- **极简留白的记忆锚点** —— 大数字 + pull quote + accent line 三件套是招牌,辅以 asymmetric anchor block / timeline / word mark / contact-box 让"克制的排版"也有记忆点
+- **`skills/huashu-design/` 目录不删** —— 主 Agent 遇到具体外溢需求时,按需读 `references/slide-decks.md` 等深文档
 
 核心原则:
 - **动效底线不动**:关 JS / prefers-reduced-motion / 打印 / IO 不支持 4 重降级,任何环境都能读

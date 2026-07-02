@@ -310,9 +310,9 @@ v1 完整性自检:
 
 > 为什么必须有这一步:Qclaw 部署 zip 时只读 5 件套文件名,**自定义 skill 全丢**(详见 `skill加载机制.md` §"为什么 zip 里的 skills 丢了")。session 启动时必须先确认 skill 还在,不在就装回来。
 
-**第一步:读 5 件套**(上一节);**第二步:确认 5 个 style skill 都活着**。
+**第一步:读 5 件套**(上一节);**第二步:确认 6 个 skill 都活着**。
 
-**本专家需要的 skill**(都在 `skills/<风格名>/SKILL.md + template.html`):
+**本专家需要的 skill**(5 个 style skill + 1 个跨场景辅助 skill):
 
 | Skill 名 | 文件位置 | 用途 | allowlist 名 |
 |---------|---------|------|------------|
@@ -320,25 +320,27 @@ v1 完整性自检:
 | `杂志编辑` | `skills/杂志编辑/SKILL.md` | 设计师/插画师/学术 CV | `杂志编辑` |
 | `赛博未来` | `skills/赛博未来/SKILL.md` | 后端/AI/极客向 | `赛博未来` |
 | `手账拼贴` | `skills/手账拼贴/SKILL.md` | 学生/接单/副业 | `手账拼贴` |
+| `huashu-design` | `skills/huashu-design/SKILL.md` | **跨场景辅助**(幻灯片/原型/动画/可视化);**仅外溢需求时启用** | `huashu-design` |
 | `大厂风格` | `skills/大厂风格/DESIGN-INDEX.md` | **参考目录**(不是 skill) | 不需要 allowlist |
 
 > `大厂风格` 不是标准 skill —— 它是精选大厂设计语言参考库,模块 3 大厂风推荐流程会直接读,不靠 Qclaw 自动发现。
+> `huashu-design` 是跨场景辅助 —— 默认**不参与**简历/作品集生成,只在用户明确要做 PPT/原型/动画/可视化时启用。详见 `skills/huashu-design/INTEGRATION.md`。
 
 **自举动作**(按顺序跑):
 
 1. **扫盘检查** —— 读 `skills/<风格名>/SKILL.md` 是否存在
-   - 4 个都在 → 跳过,继续会话
+   - 6 个都在 → 跳过,继续会话
    - 缺任意一个 → 走第 2 步
 2. **缺失告警 + 安装尝试**
    - 用 `skillhub_install` 在线装回缺失的 skill(逐个)
    - 装不上 → 停下来跟用户说"X skill 缺失且在线装失败,模块 3 之后涉及 X 风格的功能会受限;你可以跑 `DEPLOY.md` 里的 deploy 脚本重灌,或手动把 `skills/X/` 复制到 workspace"
-3. **allowlist 检查** —— 询问或确认这 4 个 skill 名是否在 Agent 配置的 `skills` 数组里
+3. **allowlist 检查** —— 询问或确认这 5 个 skill 名(4 个 style + 1 个 huashu)是否在 Agent 配置的 `skills` 数组里
    - 在 → 走第 4 步
-   - 不在 → **明确告诉用户**:"这 4 个 skill 名(`极简留白` / `杂志编辑` / `赛博未来` / `手账拼贴`)需要加进 `openclaw.json` 的 agent skills 数组里,否则磁盘上有 Qclaw 也看不见;操作见 `DEPLOY.md`"
-4. **告知用户** —— 出 v1 前,简短念一句"4 个风格 skill 都在,大厂风参考库也在,本会话可以走模块 3 风格匹配",让用户知道 skill 链路是通的
+   - 不在 → **明确告诉用户**:"这 5 个 skill 名(`极简留白` / `杂志编辑` / `赛博未来` / `手账拼贴` / `huashu-design`)需要加进 `openclaw.json` 的 agent skills 数组里,否则磁盘上有 Qclaw 也看不见;操作见 `DEPLOY.md`"
+4. **告知用户** —— 出 v1 前,简短念一句"5 个 skill(4 个 style + huashu-design)都在,大厂风参考库也在,本会话可以走模块 3 风格匹配",让用户知道 skill 链路是通的
 
 **首次部署后必跑一次** —— 用户说"第一次部署完跑一下",我会自检并给一份"skill 健康报告":
-- ✓ 4 个风格 skill 都在
+- ✓ 5 个 skill(4 个 style + huashu-design)都在
 - ✓ 4 个 style template.html 都在
 - ⚠️ 如果有缺失/损坏 → 上面步骤 2 的处理
 - ⚠️ allowlist 不齐 → 上面步骤 3 的提示

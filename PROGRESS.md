@@ -1,8 +1,8 @@
 # 履历裁缝 Agent - 项目进度文档
 
 > 给未来的 Claude 看的快速 resume 文档。
-> 最后更新:2026-06-29
-> 当前版本:v1.1(初版实测后优化)
+> 最后更新:2026-07-02
+> 当前版本:**v1.1.4**(统一动效骨架 + 视觉锚点增强 + huashu-design 跨场景辅助)
 
 ---
 
@@ -16,9 +16,33 @@
 
 ---
 
-## 当前版本状态(v1.1.3)
+## 当前版本状态(v1.1.4)
 
-### v1.0 → v1.1.3 的关键变化
+### v1.1.3 → v1.1.4 的关键变化
+
+#### v1.1.4 增量(2026-07-02)
+
+用户反馈 v1.1.3 的两个痛点 + 1 个新需求:
+
+1. **痛点 A:动效缺失** —— "成品 HTML 出厂有点素,默认加动效" → 落地**统一动效骨架**(2 baseline + 3 adaptive)
+2. **痛点 B:视觉单调** —— "默认效果太单调朴素了" → 落地**视觉锚点增强**(每 template 自带 5-8 个静态亮点)
+3. **新需求:跨场景辅助** —— 接入 [alchaincyf/huashu-design](https://github.com/alchaincyf/huashu-design) skill(HTML 原生设计:原型/幻灯片/动画/可视化),让用户做 PPT 等外溢需求时有专业依托
+
+落地文件清单:
+- `docs/动效骨架.md`(新)—— 2 baseline + 3 adaptive 全套规范 + per-style 差异化 + 验证清单
+- `docs/效果要素指南.md`(加 §"动效层 13-14") —— 主 Agent 决策增加动效维度
+- `SOUL.md` §"关于动效" —— 从"≤3 个动效"升级到"2 baseline + ≤3 adaptive 统一骨架"
+- `AGENTS.md` 模块 4 —— 加动效索引,出 v1 前必查两份 docs
+- `skills/极简留白/template.html` —— 重写,接入动效骨架 + 视觉锚点(hero 大数字 / h2 章节标号 / 卡片化 / ◆ 装饰)
+- `skills/杂志编辑/template.html` —— 重写,接入动效骨架 + 视觉锚点(罗马数字 CHAPTER / ISSUE NO. / ¶ 联系符 / 作品灰度→彩色)
+- `skills/赛博未来/template.html` —— 重写,接入动效骨架 + 视觉锚点(ASCII 装饰 / status bar + pulse / glitch hover / 技能条渐变)
+- `skills/手账拼贴/template.html` —— 重写,接入动效骨架 + 视觉锚点(日期贴纸 / handwritten-underline / chapter-mark 圆圈 / footer 圆形印章)
+- `skills/huashu-design/`(新)—— 上游 MIT skill(SKILL.md + LICENSE + README + 26 references),INTÈGRATION.md 说明何时启用 / 跳过什么
+
+核心原则:
+- **动效底线不动**:关 JS / prefers-reduced-motion / 打印 / IO 不支持 4 重降级,任何环境都能读
+- **per-style 差异化**:同一套 token + shared script,但各 style 的视觉气质保留(赛博未来 200ms,手账拼贴 -1° rotation)
+- **视觉锚点 ≠ emoji**:仍守 SOUL 原则 6 零 emoji 默认,所有装饰用 SVG / CSS / 几何字符
 
 #### v1.1.3 增量(2026-06-30,今晚)
 

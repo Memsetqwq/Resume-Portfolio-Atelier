@@ -11,27 +11,159 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Inter:wght@300;400;500&family=Patrick+Hand&display=swap" rel="stylesheet">
 
 <style>
+  /* === 重置 + 字体 fallback === */
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Inter', -apple-system, sans-serif;
     background: #FDFBF5;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(252, 165, 165, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(134, 239, 172, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(253, 230, 138, 0.06) 0%, transparent 70%);
     color: #3A2E26;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(252, 165, 165, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(134, 239, 172, 0.06) 0%, transparent 50%);
+    min-height: 100vh;
   }
-  .journal { max-width: 880px; margin: 0 auto; padding: 48px 32px; }
 
-  /* 顶部 */
-  .header { text-align: center; margin-bottom: 64px; }
-  .header h1 { font-family: 'Caveat', cursive; font-size: 72px; font-weight: 700; color: #B91C1C; transform: rotate(-1deg); display: inline-block; }
-  .header .tagline { font-family: 'Patrick Hand', cursive; font-size: 20px; color: #6B5D4F; margin-top: 8px; transform: rotate(1deg); display: inline-block; }
-  .header .contact { margin-top: 24px; font-family: 'Patrick Hand', cursive; font-size: 16px; color: #6B5D4F; }
-  .header .contact a { color: #3A2E26; text-decoration: none; border-bottom: 2px dashed #FCA5A5; }
+  /* === 动效 token(贴纸风 — 弹性 + 短时长)== */
+  :root {
+    --motion-fast: 150ms;
+    --motion-base: 300ms;
+    --motion-slow: 600ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* 内容块 */
+    --warm-red: #B91C1C;
+    --warm-pink: #FCA5A5;
+    --warm-green: #86EFAC;
+    --warm-yellow: #FDE68A;
+    --warm-blue: #93C5FD;
+  }
+  .journal { max-width: 880px; margin: 0 auto; padding: 48px 32px; position: relative; }
+
+  /* === Hero 日期贴纸(右上角手写感) === */
+  .date-stamp {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    background: white;
+    border: 2px dashed var(--warm-red);
+    border-radius: 50%;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(8deg);
+    font-family: 'Caveat', cursive;
+    box-shadow: 2px 3px 0 rgba(58, 46, 38, 0.1);
+    z-index: 5;
+  }
+  .date-stamp .month {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--warm-red);
+    font-family: 'Patrick Hand', cursive;
+  }
+  .date-stamp .day {
+    font-size: 40px;
+    font-weight: 700;
+    color: #3A2E26;
+    line-height: 1;
+  }
+  .date-stamp .year {
+    font-size: 11px;
+    color: #6B5D4F;
+    font-family: 'Patrick Hand', cursive;
+  }
+
+  /* === 顶部 hero(走 hero stagger)== */
+  .header { text-align: center; margin-bottom: 64px; padding-top: 24px; }
+  .header .intro-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 16px;
+    color: #6B5D4F;
+    background: white;
+    padding: 4px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(58, 46, 38, 0.08);
+    margin-bottom: 16px;
+    box-shadow: 1px 1px 0 rgba(58, 46, 38, 0.06);
+  }
+  .header .intro-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warm-red); }
+  .header h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--warm-red);
+    transform: rotate(-1deg);
+    display: inline-block;
+    line-height: 1;
+  }
+  /* 名字下方装饰手绘箭头 */
+  .header .handwritten-underline {
+    display: block;
+    width: 200px;
+    height: 16px;
+    margin: 8px auto 0;
+    color: var(--warm-red);
+    opacity: 0.6;
+  }
+  .header .tagline {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 20px;
+    color: #6B5D4F;
+    margin-top: 16px;
+    transform: rotate(1deg);
+    display: inline-block;
+    max-width: 560px;
+  }
+  .header .contact {
+    margin-top: 24px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 16px;
+    color: #6B5D4F;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .header .contact span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header .contact span::before {
+    content: '✿';
+    color: var(--warm-pink);
+    font-size: 12px;
+  }
+  .header .contact a {
+    color: #3A2E26;
+    text-decoration: none;
+    border-bottom: 2px dashed var(--warm-pink);
+    transition: border-color var(--motion-fast) ease;
+  }
+  .header .contact a:hover { border-bottom-color: var(--warm-red); }
+
+  /* === Section 装饰分隔符(手绘虚线)== */
+  .section-divider {
+    text-align: center;
+    margin: 48px 0;
+    color: var(--warm-red);
+    opacity: 0.5;
+    letter-spacing: 1em;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+  }
+
+  /* === 贴纸卡片(主体) === */
   .sticker {
     background: white;
     border: 1px solid rgba(58, 46, 38, 0.1);
@@ -40,6 +172,7 @@
     margin-bottom: 32px;
     box-shadow: 2px 2px 0 rgba(58, 46, 38, 0.06);
     position: relative;
+    transition: transform var(--motion-base) var(--ease-out), box-shadow var(--motion-base) var(--ease-out);
   }
   /* 胶带装饰(顶部色块,非 emoji) */
   .sticker::before {
@@ -54,77 +187,260 @@
   }
   .sticker:nth-of-type(2)::before { background: rgba(134, 239, 172, 0.5); transform: translateX(-50%) rotate(1deg); }
   .sticker:nth-of-type(3)::before { background: rgba(253, 230, 138, 0.5); transform: translateX(-50%) rotate(-1deg); }
-  .sticker:nth-of-type(4)::before { background: rgba(252, 165, 165, 0.5); transform: translateX(-50%) rotate(2deg); }
-  .sticker:nth-of-type(5)::before { background: rgba(134, 239, 172, 0.5); transform: translateX(-50%) rotate(-2deg); }
+  .sticker:nth-of-type(4)::before { background: rgba(147, 197, 253, 0.5); transform: translateX(-50%) rotate(2deg); }
+  .sticker:nth-of-type(5)::before { background: rgba(252, 165, 165, 0.5); transform: translateX(-50%) rotate(-2deg); }
 
-  /* 错位 */
-  .sticker:nth-of-type(odd) { transform: rotate(-0.5deg); }
+  /* 错位(初始)+ 错位回归(revealed 后) */
+  .sticker:nth-of-type(odd)  { transform: rotate(-0.5deg); }
   .sticker:nth-of-type(even) { transform: rotate(0.5deg); }
 
+  .sticker:hover {
+    box-shadow: 4px 6px 0 rgba(58, 46, 38, 0.1);
+    transform: translateY(-2px);
+  }
+  .sticker:nth-of-type(odd):hover  { transform: translateY(-2px) rotate(-1deg); }
+  .sticker:nth-of-type(even):hover { transform: translateY(-2px) rotate(1deg); }
+
+  /* 章节标号 + 手绘图标 */
   .sticker h2 {
     font-family: 'Caveat', cursive;
     font-size: 36px;
     font-weight: 600;
-    color: #B91C1C;
+    color: var(--warm-red);
     margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
+    position: relative;
   }
-  .sticker h3 { font-family: 'Patrick Hand', cursive; font-size: 22px; color: #6B5D4F; margin-bottom: 8px; }
+  /* 章节标号(手绘圆圈 + 数字)*/
+  .sticker .chapter-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--warm-red);
+    border-radius: 50%;
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--warm-red);
+    flex-shrink: 0;
+  }
+  .sticker h3 {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 22px;
+    color: #6B5D4F;
+    margin-bottom: 8px;
+  }
   .sticker p { font-size: 15px; color: #3A2E26; margin-bottom: 8px; }
   .sticker ul { padding-left: 20px; margin-top: 8px; }
   .sticker li { margin-bottom: 4px; }
-  .sticker .meta { font-family: 'Patrick Hand', cursive; font-size: 14px; color: #6B5D4F; margin-bottom: 12px; }
+  .sticker li::marker { color: var(--warm-red); }
+  .sticker .meta {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 14px;
+    color: #6B5D4F;
+    margin-bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(252, 165, 165, 0.1);
+    padding: 2px 12px;
+    border-radius: 999px;
+  }
+  .sticker .meta::before { content: '·'; color: var(--warm-red); }
 
-  /* SVG 平面图形(手绘 stroke 风格) */
-  .deco { display: inline-block; width: 24px; height: 24px; flex-shrink: 0; color: #B91C1C; }
+  /* === 项目/作品卡片(贴一张图占位)== */
+  .work-thumb {
+    background: rgba(58, 46, 38, 0.04);
+    border: 2px dashed rgba(58, 46, 38, 0.2);
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    color: #6B5D4F;
+    font-family: 'Patrick Hand', cursive;
+    overflow: hidden;
+    position: relative;
+  }
+  .work-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .work-thumb .placeholder {
+    font-size: 14px;
+    color: #6B5D4F;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* === 技能贴纸标签 === */
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    background: white;
+    border: 1px solid rgba(58, 46, 38, 0.15);
+    border-radius: 999px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 15px;
+    color: #3A2E26;
+    transform: rotate(-1deg);
+    transition: transform var(--motion-fast) ease, border-color var(--motion-fast) ease;
+  }
+  .skill-tag:nth-child(even) { transform: rotate(1deg); }
+  .skill-tag:hover {
+    transform: rotate(0) translateY(-2px);
+    border-color: var(--warm-red);
+  }
+  .skill-tag::before { content: '✿'; color: var(--warm-pink); font-size: 10px; }
+
+  /* === SVG 平面图形(手绘 stroke 风格) === */
+  .deco { display: inline-block; width: 24px; height: 24px; flex-shrink: 0; color: var(--warm-red); }
   .deco-circle { stroke: currentColor; fill: none; stroke-width: 1.8; }
   .deco-fill { fill: currentColor; }
 
-  /* 动效:贴上去 */
+  /* === 印章 footer(手作 closing 印章)== */
+  .footer-stamp {
+    margin: 64px auto 0;
+    text-align: center;
+    position: relative;
+    padding: 24px;
+  }
+  .footer-stamp .seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 3px double var(--warm-red);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    font-family: 'Caveat', cursive;
+    color: var(--warm-red);
+    text-align: center;
+    line-height: 1.2;
+    transform: rotate(-3deg);
+    box-shadow: 2px 3px 0 rgba(58, 46, 38, 0.1);
+    position: relative;
+  }
+  .footer-stamp .seal::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--warm-red);
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+  .footer-stamp .seal-title {
+    font-size: 20px;
+    font-weight: 700;
+    display: block;
+  }
+  .footer-stamp .seal-sub {
+    font-size: 11px;
+    font-family: 'Patrick Hand', cursive;
+    color: #6B5D4F;
+    margin-top: 2px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .footer-stamp .signoff {
+    margin-top: 16px;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 16px;
+    color: #6B5D4F;
+  }
+
+  /* === 动效:贴上去(baseline 1)+ 弹性(stagger)== */
   @media (prefers-reduced-motion: no-preference) {
-    .reveal { opacity: 0; transform: scale(0.95) rotate(1deg); transition: opacity 0.3s, transform 0.3s; }
-    .reveal.visible { opacity: 1; transform: scale(1) rotate(0deg); }
-    .sticker:nth-of-type(odd).reveal.visible { transform: scale(1) rotate(-0.5deg); }
+    .reveal {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+    .sticker.reveal.visible { opacity: 1; transform: scale(1) rotate(-0.5deg); }
     .sticker:nth-of-type(even).reveal.visible { transform: scale(1) rotate(0.5deg); }
+    .reveal:not(.sticker).visible { opacity: 1; transform: scale(1); }
   }
   .no-js .reveal { opacity: 1; transform: none; }
+  .no-js .sticker:nth-of-type(odd)  { transform: rotate(-0.5deg); }
+  .no-js .sticker:nth-of-type(even) { transform: rotate(0.5deg); }
 
-  /* 响应式 */
+  /* === 动效:Hero stagger(adaptive 2)== */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(10px) rotate(-1deg);
+      transition: opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
+    }
+    [data-stagger].staggered > * { opacity: 1; transform: none; }
+    [data-stagger].staggered > *:nth-child(1) { transition-delay: 0ms; }
+    [data-stagger].staggered > *:nth-child(2) { transition-delay: 100ms; }
+    [data-stagger].staggered > *:nth-child(3) { transition-delay: 200ms; }
+    [data-stagger].staggered > *:nth-child(4) { transition-delay: 300ms; }
+    [data-stagger].staggered > *:nth-child(5) { transition-delay: 400ms; }
+  }
+  .no-js [data-stagger] > * { opacity: 1; transform: none; }
+
+  /* === 响应式 === */
   @media (max-width: 640px) {
     .journal { padding: 32px 16px; }
+    .date-stamp { width: 72px; height: 72px; top: 16px; right: 16px; }
+    .date-stamp .day { font-size: 28px; }
     .header h1 { font-size: 48px; }
+    .header .handwritten-underline { width: 140px; }
     .sticker { padding: 20px; }
     .sticker h2 { font-size: 28px; }
+    .footer-stamp .seal { width: 96px; height: 96px; }
+    .footer-stamp .seal-title { font-size: 16px; }
   }
 
-  /* Print */
+  /* === Print CSS === */
   @media print {
-    body { background: white; }
-    .sticker { box-shadow: none; border: 1px solid #ccc; }
-    .sticker::before { display: none; }
+    body { background: white; background-image: none; }
+    .sticker { box-shadow: none; border: 1px solid #ccc; transform: none !important; }
+    .sticker::before, .date-stamp, .footer-stamp .seal::after { display: none; }
+    .reveal, [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+    .footer-stamp .seal { transform: none; box-shadow: none; }
   }
 </style>
 </head>
 <body class="no-js">
 <div class="journal">
 
-  <header class="header">
+  <!-- Hero 日期贴纸 -->
+  <div class="date-stamp" aria-hidden="true">
+    <span class="month">{{date_month}}</span>
+    <span class="day">{{date_day}}</span>
+    <span class="year">{{date_year}}</span>
+  </div>
+
+  <!-- 顶部 hero(走 hero stagger)== -->
+  <header class="header" data-stagger>
+    <span class="intro-tag"><span class="dot"></span>{{tagline_short}}</span>
     <h1>Hi, 我是 {{name}}</h1>
+    <svg class="handwritten-underline" viewBox="0 0 200 16" aria-hidden="true">
+      <path d="M2 8 Q 50 2, 100 8 T 198 8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
     <p class="tagline">{{tagline}}</p>
     <p class="contact">
-      <a href="mailto:{{email}}">{{email}}</a> · <a href="{{github}}">{{github}}</a>
+      <span><a href="mailto:{{email}}">{{email}}</a></span>
+      <span><a href="{{github}}">{{github}}</a></span>
+      <span><a href="{{portfolio_link}}">{{portfolio_link}}</a></span>
     </p>
   </header>
+
+  <!-- 装饰分隔符 -->
+  <div class="section-divider" aria-hidden="true">✿ ✿ ✿</div>
 
   <!-- 关于 -->
   <section class="sticker reveal">
     <h2>
-      <svg class="deco" viewBox="0 0 24 24" aria-hidden="true">
-        <circle class="deco-circle" cx="12" cy="12" r="9"/>
-        <circle class="deco-fill" cx="12" cy="12" r="2.5"/>
-      </svg>
+      <span class="chapter-mark">1</span>
       关于我
     </h2>
     <p>{{about_summary}}</p>
@@ -133,75 +449,110 @@
   <!-- 经历 -->
   <section class="sticker reveal">
     <h2>
-      <svg class="deco" viewBox="0 0 24 24" aria-hidden="true">
-        <line class="deco-circle" x1="3" y1="12" x2="21" y2="12"/>
-        <circle class="deco-fill" cx="7" cy="12" r="2.5"/>
-        <circle class="deco-circle" cx="17" cy="12" r="2.5"/>
-      </svg>
+      <span class="chapter-mark">2</span>
       做过什么
     </h2>
     <h3>{{role_1}}</h3>
-    <p class="meta">{{company_1}} · {{period_1}}</p>
+    <span class="meta">{{company_1}} · {{period_1}}</span>
     <p>{{achievement_1}}</p>
 
     <h3 style="margin-top: 20px;">{{role_2}}</h3>
-    <p class="meta">{{company_2}} · {{period_2}}</p>
+    <span class="meta">{{company_2}} · {{period_2}}</span>
     <p>{{achievement_2}}</p>
   </section>
 
-  <!-- 作品/项目 -->
+  <!-- 作品/项目(带 thumb 占位)== -->
   <section class="sticker reveal">
     <h2>
-      <svg class="deco" viewBox="0 0 24 24" aria-hidden="true">
-        <rect class="deco-circle" x="4" y="4" width="16" height="16"/>
-        <line class="deco-circle" x1="4" y1="9" x2="20" y2="9"/>
-        <circle class="deco-fill" cx="7" cy="6.5" r="0.8"/>
-      </svg>
+      <span class="chapter-mark">3</span>
       作品集
     </h2>
+    <div class="work-thumb">
+      <span class="placeholder">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="5" width="18" height="14" rx="1"/>
+          <circle cx="9" cy="10" r="1.5"/>
+          <path d="M3 17 L9 11 L13 15 L17 11 L21 17"/>
+        </svg>
+        <span>{{work_1_title}} 待补图</span>
+      </span>
+    </div>
     <h3>{{work_1_title}}</h3>
-    <p class="meta">{{work_1_year}}</p>
+    <span class="meta">{{work_1_year}}</span>
     <p>{{work_1_desc}}</p>
   </section>
 
-  <!-- 技能 -->
+  <!-- 技能(贴纸标签)== -->
   <section class="sticker reveal">
     <h2>
-      <svg class="deco" viewBox="0 0 24 24" aria-hidden="true">
-        <line class="deco-circle" x1="3" y1="6" x2="21" y2="6"/>
-        <line class="deco-circle" x1="3" y1="12" x2="17" y2="12"/>
-        <line class="deco-circle" x1="3" y1="18" x2="13" y2="18"/>
-      </svg>
+      <span class="chapter-mark">4</span>
       会什么
     </h2>
-    <p>{{skill_list}}</p>
+    <p>{{skill_intro}}</p>
+    <div class="skill-tags">
+      <span class="skill-tag">{{skill_1}}</span>
+      <span class="skill-tag">{{skill_2}}</span>
+      <span class="skill-tag">{{skill_3}}</span>
+      <span class="skill-tag">{{skill_4}}</span>
+      <span class="skill-tag">{{skill_5}}</span>
+      <span class="skill-tag">{{skill_6}}</span>
+    </div>
   </section>
 
   <!-- 联系 -->
   <section class="sticker reveal" style="text-align: center;">
     <h2 style="justify-content: center;">
-      <svg class="deco" viewBox="0 0 24 24" aria-hidden="true">
-        <path class="deco-circle" d="M4 5 H20 V16 H12 L7 20 V16 H4 Z"/>
-        <line class="deco-circle" x1="7" y1="9" x2="17" y2="9"/>
-        <line class="deco-circle" x1="7" y1="12" x2="14" y2="12"/>
-      </svg>
+      <span class="chapter-mark">5</span>
       来找我
     </h2>
     <p>{{contact_message}}</p>
   </section>
 
+  <!-- 印章 footer -->
+  <footer class="footer-stamp reveal">
+    <span class="seal">
+      <span>
+        <span class="seal-title">{{name}}</span>
+        <span class="seal-sub">● signed ●</span>
+      </span>
+    </span>
+    <p class="signoff">{{signoff}}</p>
+  </footer>
+
 </div>
 
 <script>
+(function () {
+  'use strict';
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.remove('no-js');
+
+  /* Baseline 1:滚动渐显 */
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
   }
+
+  /* Adaptive 2:Hero stagger */
+  if (!REDUCED_MOTION) {
+    document.querySelectorAll('[data-stagger]').forEach((el) => {
+      requestAnimationFrame(() => {
+        setTimeout(() => el.classList.add('staggered'), 80);
+      });
+    });
+  } else {
+    document.querySelectorAll('[data-stagger]').forEach((el) => el.classList.add('staggered'));
+  }
+})();
 </script>
 </body>
 </html>

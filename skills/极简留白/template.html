@@ -8,7 +8,7 @@
 <!-- Google Fonts:Inter + JetBrains Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   /* === 重置 + 字体 fallback === */
@@ -20,41 +20,143 @@
     line-height: 1.6;
     color: #0A0A0A;
     background: #FAFAFA;
+    background-image: radial-gradient(circle, rgba(10, 10, 10, 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
     -webkit-font-smoothing: antialiased;
   }
-  /* 字体加载失败 fallback 到系统字体 */
   @font-face { font-family: 'Inter'; src: local('Helvetica Neue'); }
 
-  /* === 排版 === */
-  .container { max-width: 800px; margin: 0 auto; padding: 80px 64px; }
-  h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
-  h2 { font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: #6B7280; margin: 80px 0 24px; }
-  h3 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
-  p { font-size: 16px; color: #374151; margin-bottom: 8px; }
-  a { color: #0A0A0A; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
-  a:hover { border-bottom-color: #2563EB; }
-  code, .mono { font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace; font-size: 14px; }
-
-  /* 顶部个人信息 */
-  .header { margin-bottom: 80px; }
-  .header .title { font-size: 20px; color: #6B7280; font-weight: 300; margin-top: 8px; }
-  .header .contact { margin-top: 16px; font-size: 14px; color: #6B7280; }
-  .header .contact span { margin-right: 16px; }
-
-  /* 区块 */
-  .section { margin-bottom: 64px; }
-  .item { margin-bottom: 32px; }
-  .item .meta { font-size: 13px; color: #6B7280; margin-bottom: 8px; }
-  .item ul { padding-left: 20px; margin-top: 8px; }
-  .item li { margin-bottom: 4px; color: #374151; }
-
-  /* accent 颜色(主 Agent 替换)· v1.1.4 起支持双 accent */
+  /* === 动效 token(2+3 动效骨架) === */
   :root {
+    --motion-fast: 150ms;
+    --motion-base: 400ms;
+    --motion-slow: 800ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
     --accent: #2563EB;             /* 主 accent:标题 / 链接 / 列表点 */
     --accent-warm: #F59E0B;        /* 副 accent:**只**用于硬数据高亮 */
     --accent-warm-soft: rgba(245, 158, 11, 0.08);
+    --ink: #0A0A0A;
+    --ink-soft: #6B7280;
+    --ink-faint: #9CA3AF;
+    --line: #E5E7EB;
   }
   .accent { color: var(--accent); }
+
+  /* === 排版 === */
+  .container { max-width: 800px; margin: 0 auto; padding: 80px 64px; position: relative; }
+
+  /* Hero 区:大号装饰数字 00(视觉锚点) */
+  .hero-mark {
+    position: absolute;
+    top: 60px;
+    right: -40px;
+    font-size: 200px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.06;
+    letter-spacing: -0.04em;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  h1 { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    margin: 80px 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  /* Section 编号 + 横线进场(h2 accent line drawing) */
+  h2 .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    color: var(--accent);
+    font-size: 11px;
+  }
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: width var(--motion-base) var(--ease-out);
+    flex-shrink: 0;
+  }
+  h2.revealed::before { width: 32px; }
+
+  h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+  p { font-size: 16px; color: #374151; margin-bottom: 8px; }
+  a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color var(--motion-fast) ease, border-color var(--motion-fast) ease;
+  }
+  a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  code, .mono { font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace; font-size: 14px; }
+
+  /* Hero 区:顶部 accent 横线(封面感) */
+  .header {
+    margin-bottom: 64px;
+    padding-top: 24px;
+    border-top: 4px solid var(--ink);
+    position: relative;
+  }
+  /* accent 角标 */
+  .header::after {
+    content: '◆';
+    position: absolute;
+    top: -14px;
+    left: -8px;
+    font-size: 16px;
+    color: var(--accent);
+    background: #FAFAFA;
+    padding: 0 6px;
+  }
+  .header .title { font-size: 20px; color: var(--ink-soft); font-weight: 300; margin-top: 8px; }
+  .header .contact { margin-top: 20px; font-size: 14px; color: var(--ink-soft); display: flex; flex-wrap: wrap; gap: 6px 16px; }
+  .header .contact span {
+    position: relative;
+    padding-left: 14px;
+  }
+  .header .contact span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* 区块 */
+  .section { margin-bottom: 56px; position: relative; }
+  .item { margin-bottom: 32px; }
+  .item .meta { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .item ul { padding-left: 20px; margin-top: 8px; }
+  .item li { margin-bottom: 4px; color: #374151; }
+  .item li::marker { color: var(--accent); }
+
+  /* Section 装饰分隔符(◆ ◆ ◆) */
+  .section-divider {
+    text-align: center;
+    margin: 48px 0;
+    color: var(--accent);
+    font-size: 14px;
+    letter-spacing: 1em;
+    opacity: 0.5;
+  }
 
   /* === v1.1.4 数据卡片化(顶部 metric row)== */
   .metrics-row {
@@ -68,6 +170,21 @@
     border-left: 3px solid var(--accent-warm);
     border-radius: 8px;
     padding: 18px 16px;
+    position: relative;
+    transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-fast) var(--ease-out);
+  }
+  .metric:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px -8px rgba(245, 158, 11, 0.4);
+  }
+  .metric::before {
+    content: '▲';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    color: var(--accent-warm);
+    opacity: 0.4;
   }
   .metric-num {
     font-size: 36px;
@@ -82,53 +199,175 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: #6B7280;
+    color: var(--ink-soft);
     margin-top: 8px;
   }
 
   /* === v1.1.4 经历卡片化(节奏锚点)== */
   .exp-card {
     border-left: 4px solid var(--accent);
-    padding-left: 20px;
+    padding: 16px 20px;
     margin-bottom: 28px;
+    background: rgba(37, 99, 235, 0.02);
+    border-radius: 0 4px 4px 0;
+    transition: transform var(--motion-fast) var(--ease-out), background var(--motion-fast) ease;
+  }
+  .exp-card:hover {
+    transform: translateX(4px);
+    background: rgba(37, 99, 235, 0.05);
   }
   .exp-card:last-child { margin-bottom: 0; }
 
-  hr { border: none; border-top: 1px solid #E5E7EB; margin: 40px 0; }
+  /* 项目卡片 */
+  .project-card {
+    padding: 20px 24px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: white;
+    transition: transform var(--motion-fast) var(--ease-out), border-color var(--motion-fast) ease, box-shadow var(--motion-fast) ease;
+    position: relative;
+  }
+  .project-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px -4px rgba(37, 99, 235, 0.15);
+  }
+  .project-card .meta { margin-bottom: 4px; }
+  .project-card::before {
+    content: '▸';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--accent);
+    font-size: 14px;
+    opacity: 0.5;
+  }
 
-  /* === 动效 1:滚动渐显(200ms) === */
+  /* 技能 grid */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .skill-tag {
+    background: white;
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color var(--motion-fast) ease, background var(--motion-fast) ease, transform var(--motion-fast) ease;
+  }
+  .skill-tag:hover {
+    border-color: var(--accent);
+    background: rgba(37, 99, 235, 0.04);
+    transform: translateY(-1px);
+  }
+  .skill-tag::before {
+    content: '◆';
+    color: var(--accent);
+    font-size: 8px;
+  }
+
+  /* 教育卡片 */
+  .edu-card {
+    padding: 20px 24px;
+    border: 1px dashed var(--line);
+    border-radius: 6px;
+    background: rgba(10, 10, 10, 0.02);
+    transition: border-color var(--motion-fast) ease;
+  }
+  .edu-card:hover { border-color: var(--ink-soft); }
+
+  /* 底部 footer accent */
+  .footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .footer .accent-mark {
+    color: var(--accent);
+    font-size: 14px;
+  }
+
+  hr { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+
+  /* === 动效:滚动渐显(baseline 1) === */
   @media (prefers-reduced-motion: no-preference) {
-    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.4s; }
+    .reveal {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
     .reveal.visible { opacity: 1; transform: none; }
   }
-  /* 关 JS 也可读(默认显示) */
   .no-js .reveal { opacity: 1; transform: none; }
+
+  /* === 动效:Hero stagger(adaptive 2)== */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-stagger] > * {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
+    }
+    [data-stagger].staggered > * { opacity: 1; transform: none; }
+    [data-stagger].staggered > *:nth-child(1) { transition-delay: 0ms; }
+    [data-stagger].staggered > *:nth-child(2) { transition-delay: 100ms; }
+    [data-stagger].staggered > *:nth-child(3) { transition-delay: 200ms; }
+    [data-stagger].staggered > *:nth-child(4) { transition-delay: 300ms; }
+  }
+  .no-js [data-stagger] > * { opacity: 1; transform: none; }
 
   /* === 响应式 === */
   @media (max-width: 640px) {
     .container { padding: 48px 24px; }
     h1 { font-size: 40px; }
     h2 { margin-top: 56px; }
+    .hero-mark { font-size: 120px; right: -10px; top: 40px; }
+    .header::after { left: 0; }
     .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
     .metric-num { font-size: 28px; }
-    .exp-card { padding-left: 14px; margin-bottom: 22px; }
+    .exp-card { padding-left: 14px; padding-right: 14px; margin-bottom: 22px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 8px; align-items: flex-start; }
   }
 
-  /* === Print CSS:打印/PDF === */
+  /* === Print CSS === */
   @media print {
-    body { background: white; color: black; font-size: 11pt; }
+    body { background: white; color: black; font-size: 11pt; background-image: none; }
     .container { max-width: 100%; padding: 0; }
+    .hero-mark, .header::after { display: none; }
     h1 { font-size: 24pt; }
     a { color: black; border-bottom: none; }
-    .reveal { opacity: 1 !important; transform: none !important; }
+    .reveal, [data-stagger] > * { opacity: 1 !important; transform: none !important; }
+    .exp-card, .project-card, .metric, .edu-card, .skill-tag {
+      box-shadow: none !important;
+      border-color: #ccc !important;
+      background: white !important;
+    }
+    .footer { display: none; }
   }
 </style>
 </head>
 <body class="no-js">
 <div class="container">
 
-  <!-- 顶部:姓名 + 目标岗位 + 联系方式 -->
-  <header class="header">
+  <!-- Hero 装饰大数字 -->
+  <div class="hero-mark" aria-hidden="true">00</div>
+
+  <!-- 顶部:姓名 + 目标岗位 + 联系方式(走 hero stagger)== -->
+  <header class="header" data-stagger>
     <h1>{{name}}</h1>
     <p class="title">{{title}} <span class="accent">·</span> {{tagline}}</p>
     <p class="contact">
@@ -139,36 +378,32 @@
   </header>
 
   <!-- v1.1.4 数据卡片化:数字从 bullets 里抽出来做成 metric card -->
-  <!-- **主 Agent 根据本用户的硬数字密度自适应,不强求 3 个**: -->
-  <!--   - 2 个硬数字 → 留 2 个 .metric,删除第 3 个 -->
-  <!--   - 4 个硬数字 → 复制一组 .metric 加到第 4 个 -->
-  <!--   - 0-1 个硬数字 → **整个 section 删掉**;把那个数放回对应 bullet 即可 -->
-  <!-- 选数字的优先级(参考 docs/效果要素指南.md §1):转化率 > 用户/规模 > 排名/获奖 > 个人产出(如 stars) -->
+  <!-- 主 Agent 根据本用户的硬数字密度自适应:0-1 个删整个 section,2-4 个增减 .metric 数量 -->
+  <!-- data-countup 触发数字递增动效(adaptive 1) -->
   <section class="metrics-row reveal">
     <div class="metric">
-      <div class="metric-num">{{metric_1_num}}</div>
+      <div class="metric-num" data-countup="{{metric_1_num}}">0</div>
       <div class="metric-label">{{metric_1_label}}</div>
     </div>
     <div class="metric">
-      <div class="metric-num">{{metric_2_num}}</div>
+      <div class="metric-num" data-countup="{{metric_2_num}}">0</div>
       <div class="metric-label">{{metric_2_label}}</div>
     </div>
     <div class="metric">
-      <div class="metric-num">{{metric_3_num}}</div>
+      <div class="metric-num" data-countup="{{metric_3_num}}">0</div>
       <div class="metric-label">{{metric_3_label}}</div>
     </div>
-    <!-- 主 Agent:根据上述规则增减 .metric 数量 -->
   </section>
 
   <!-- 关于 -->
   <section class="section reveal">
-    <h2>关于</h2>
+    <h2><span class="num">01</span>关于</h2>
     <p>{{about_summary}}</p>
   </section>
 
-  <!-- 经历(v1.1.4 起每段加 .exp-card 走卡片化)== -->
+  <!-- 经历 -->
   <section class="section reveal">
-    <h2>经历</h2>
+    <h2><span class="num">02</span>经历</h2>
 
     <div class="item exp-card">
       <h3>{{role_1}}</h3>
@@ -190,10 +425,13 @@
     </div>
   </section>
 
+  <!-- Section 装饰分隔符 -->
+  <div class="section-divider" aria-hidden="true">◆ ◆ ◆</div>
+
   <!-- 项目 -->
   <section class="section reveal">
-    <h2>项目</h2>
-    <div class="item">
+    <h2><span class="num">03</span>项目</h2>
+    <div class="project-card">
       <h3>{{project_1_name}}</h3>
       <p class="meta">{{project_1_tech}}</p>
       <p>{{project_1_desc}}</p>
@@ -202,34 +440,101 @@
 
   <!-- 技能 -->
   <section class="section reveal">
-    <h2>技能</h2>
-    <p class="mono">{{skill_list}}</p>
+    <h2><span class="num">04</span>技能</h2>
+    <div class="skills-grid">
+      <span class="skill-tag">{{skill_1}}</span>
+      <span class="skill-tag">{{skill_2}}</span>
+      <span class="skill-tag">{{skill_3}}</span>
+      <span class="skill-tag">{{skill_4}}</span>
+      <span class="skill-tag">{{skill_5}}</span>
+      <span class="skill-tag">{{skill_6}}</span>
+    </div>
   </section>
 
   <!-- 教育 -->
   <section class="section reveal">
-    <h2>教育</h2>
-    <div class="item">
+    <h2><span class="num">05</span>教育</h2>
+    <div class="edu-card">
       <h3>{{school}}</h3>
       <p class="meta">{{degree}} · {{period}}</p>
     </div>
   </section>
 
+  <!-- Footer accent -->
+  <footer class="footer">
+    <span>{{name}}</span>
+    <span class="accent-mark">◆</span>
+    <span>Updated {{date}}</span>
+  </footer>
+
 </div>
 
 <script>
-  // 滚动渐显(IntersectionObserver)
+(function () {
+  'use strict';
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.classList.remove('no-js');
+
+  /* === Baseline 1:滚动渐显 === */
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // h2 还触发 accent line drawing
+          if (e.target.tagName === 'H2') e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        }
       });
     }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+    document.querySelectorAll('.reveal, h2').forEach((el) => io.observe(el));
   } else {
-    document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'));
+    document.querySelectorAll('.reveal, h2').forEach((el) => {
+      el.classList.add('visible');
+      if (el.tagName === 'H2') el.classList.add('revealed');
+    });
   }
+
+  /* === Adaptive 1:数字递增(count-up)== */
+  function countUp(el, target, duration) {
+    if (REDUCED_MOTION) { el.textContent = target; return; }
+    duration = duration || 800;
+    const start = performance.now();
+    const isFloat = target % 1 !== 0;
+    const decimals = isFloat ? (target.toString().split('.')[1] || '').length : 0;
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = target * eased;
+      el.textContent = isFloat ? current.toFixed(decimals) : Math.round(current);
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = isFloat ? target.toFixed(decimals) : target;
+    }
+    requestAnimationFrame(tick);
+  }
+  if (!REDUCED_MOTION) {
+    document.querySelectorAll('[data-countup]').forEach((el) => {
+      const target = parseFloat(el.dataset.countup);
+      if (!isNaN(target)) countUp(el, target);
+    });
+  } else {
+    document.querySelectorAll('[data-countup]').forEach((el) => {
+      el.textContent = el.dataset.countup;
+    });
+  }
+
+  /* === Adaptive 2:Hero stagger === */
+  if (!REDUCED_MOTION) {
+    document.querySelectorAll('[data-stagger]').forEach((el) => {
+      requestAnimationFrame(() => {
+        setTimeout(() => el.classList.add('staggered'), 80);
+      });
+    });
+  } else {
+    document.querySelectorAll('[data-stagger]').forEach((el) => el.classList.add('staggered'));
+  }
+})();
 </script>
 </body>
 </html>

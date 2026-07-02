@@ -125,6 +125,33 @@ Want to give "me" a new style? Or replace the entire expert (start from scratch)
 - SKILL.md missing "包装区间适配" section — I'll install but tell you "this is missing, will force 20% at runtime, want me to add a default section?"
 - zip with GBK / UTF-8 mojibake — I'll stop and report, won't guess
 
+## How to Deploy This Expert to Qclaw (v1.1.4 new)
+
+When Qclaw creates an Agent, **it only reads the 5-piece core filenames** and **drops all custom skills**. To properly deploy this expert (with its 4 style skills) to a fresh Qclaw workspace, follow **`DEPLOY.md`**.
+
+**TL;DR:**
+```powershell
+# Dry run first (no file changes)
+.\deploy.ps1 -DryRun
+
+# Real deploy (clears workspace old files, auto-backups to ~/.qclaw-backup-<timestamp>)
+.\deploy.ps1
+
+# Only sync skills/ directory (leave other workspace files alone)
+.\deploy.ps1 -SkillsOnly
+```
+
+**One manual step after deploy** — open the workspace's `openclaw.json`, append these 4 skills to the agent's `skills` array:
+```json
+"skills": [
+  "极简留白", "杂志编辑", "赛博未来", "手账拼贴"
+]
+```
+
+Without this, Qclaw won't see the skills (even if they're on disk). On first new session, the main Agent will auto-run the "skill bootstrap" check and give you a health report.
+
+---
+
 ## Directory
 
 ```

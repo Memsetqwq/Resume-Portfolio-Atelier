@@ -125,6 +125,33 @@
 - SKILL.md 没有"包装区间适配"小节 —— 我会装但跟你说"这条缺,跑起来会强制 20%,要不要补默认段"
 - zip 里有 GBK / UTF-8 乱码 —— 我停下来报告,不瞎猜
 
+## 怎么把"我"部署到 Qclaw(v1.1.4 新增)
+
+Qclaw 创建 Agent 时**只读 5 件套文件名,自定义 skill 全丢**。要把本专家(连同 4 个 style skill)正确部署到一个新 workspace,步骤在 **`DEPLOY.md`**。
+
+**TL;DR:**
+```powershell
+# Dry run 先看一遍(不动文件)
+.\deploy.ps1 -DryRun
+
+# 真部署(会清空 workspace 旧文件,自动备份到 ~/.qclaw-backup-<时间戳>)
+.\deploy.ps1
+
+# 只同步 skills/ 目录(workspace 其他文件不动)
+.\deploy.ps1 -SkillsOnly
+```
+
+**部署完手动做一件事** —— 打开 workspace 的 `openclaw.json`,在 agent 的 `skills` 数组里追加这 4 项:
+```json
+"skills": [
+  "极简留白", "杂志编辑", "赛博未来", "手账拼贴"
+]
+```
+
+否则 Qclaw 看不见 skill(磁盘上有也不显示)。首次新会话主 Agent 会自动跑"技能自举"检查并给你健康报告。
+
+---
+
 ## 目录
 
 ```

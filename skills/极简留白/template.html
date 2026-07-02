@@ -48,9 +48,52 @@
   .item ul { padding-left: 20px; margin-top: 8px; }
   .item li { margin-bottom: 4px; color: #374151; }
 
-  /* accent 颜色(主 Agent 替换) */
-  :root { --accent: #2563EB; }
+  /* accent 颜色(主 Agent 替换)· v1.1.4 起支持双 accent */
+  :root {
+    --accent: #2563EB;             /* 主 accent:标题 / 链接 / 列表点 */
+    --accent-warm: #F59E0B;        /* 副 accent:**只**用于硬数据高亮 */
+    --accent-warm-soft: rgba(245, 158, 11, 0.08);
+  }
   .accent { color: var(--accent); }
+
+  /* === v1.1.4 数据卡片化(顶部 metric row)== */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 32px 0 48px;
+  }
+  .metric {
+    background: var(--accent-warm-soft);
+    border-left: 3px solid var(--accent-warm);
+    border-radius: 8px;
+    padding: 18px 16px;
+  }
+  .metric-num {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent-warm);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-family: 'Inter', sans-serif;
+  }
+  .metric-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6B7280;
+    margin-top: 8px;
+  }
+
+  /* === v1.1.4 经历卡片化(节奏锚点)== */
+  .exp-card {
+    border-left: 4px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 28px;
+  }
+  .exp-card:last-child { margin-bottom: 0; }
+
   hr { border: none; border-top: 1px solid #E5E7EB; margin: 40px 0; }
 
   /* === 动效 1:滚动渐显(200ms) === */
@@ -66,6 +109,9 @@
     .container { padding: 48px 24px; }
     h1 { font-size: 40px; }
     h2 { margin-top: 56px; }
+    .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric-num { font-size: 28px; }
+    .exp-card { padding-left: 14px; margin-bottom: 22px; }
   }
 
   /* === Print CSS:打印/PDF === */
@@ -92,17 +138,39 @@
     </p>
   </header>
 
+  <!-- v1.1.4 数据卡片化:数字从 bullets 里抽出来做成 metric card -->
+  <!-- **主 Agent 根据本用户的硬数字密度自适应,不强求 3 个**: -->
+  <!--   - 2 个硬数字 → 留 2 个 .metric,删除第 3 个 -->
+  <!--   - 4 个硬数字 → 复制一组 .metric 加到第 4 个 -->
+  <!--   - 0-1 个硬数字 → **整个 section 删掉**;把那个数放回对应 bullet 即可 -->
+  <!-- 选数字的优先级(参考 docs/效果要素指南.md §1):转化率 > 用户/规模 > 排名/获奖 > 个人产出(如 stars) -->
+  <section class="metrics-row reveal">
+    <div class="metric">
+      <div class="metric-num">{{metric_1_num}}</div>
+      <div class="metric-label">{{metric_1_label}}</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">{{metric_2_num}}</div>
+      <div class="metric-label">{{metric_2_label}}</div>
+    </div>
+    <div class="metric">
+      <div class="metric-num">{{metric_3_num}}</div>
+      <div class="metric-label">{{metric_3_label}}</div>
+    </div>
+    <!-- 主 Agent:根据上述规则增减 .metric 数量 -->
+  </section>
+
   <!-- 关于 -->
   <section class="section reveal">
     <h2>关于</h2>
     <p>{{about_summary}}</p>
   </section>
 
-  <!-- 经历 -->
+  <!-- 经历(v1.1.4 起每段加 .exp-card 走卡片化)== -->
   <section class="section reveal">
     <h2>经历</h2>
 
-    <div class="item">
+    <div class="item exp-card">
       <h3>{{role_1}}</h3>
       <p class="meta">{{company_1}} · {{period_1}}</p>
       <ul>
@@ -112,7 +180,7 @@
       </ul>
     </div>
 
-    <div class="item">
+    <div class="item exp-card">
       <h3>{{role_2}}</h3>
       <p class="meta">{{company_2}} · {{period_2}}</p>
       <ul>
